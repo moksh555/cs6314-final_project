@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Cars - Travel Deals</title>
+    <link rel="stylesheet" href="mystyle.css" />
+    <link rel="stylesheet" href="flights.css" />
+  </head>
+  <body id="main-body">
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="stays.html">Stays</a></li>
+        <li><a href="flights.html">Flights</a></li>
+        <li><a href="cars.html">Cars</a></li>
+        <li><a href="cruises.html">Cruises</a></li>
+        <li><a href="contact-us.html">Contact Us</a></li>
+        <li><a href="cart.html">Cart</a></li>
+        <li><a href="flighBookingHistory.html">Flight Booking </a></li>
+        <li><a href="hotelBookingHistory.html">Hotel Booking</a></li>
+      </ul>
+    </nav>
+
+    <div class="controls">
+      <label for="fontSize">Font Size:</label>
+      <button onclick="changeSize('16px')">Normal</button>
+      <button onclick="changeSize('20px')">Large</button>
+      <button onclick="changeSize('24px')">Extra Large</button>
+
+      <label for="bgColor">Background Color:</label>
+      <button onclick="changeColor('#ffffff')">White</button>
+      <button onclick="changeColor('#cfcfcf')">Gray</button>
+      <button onclick="changeColor('#000000')">Blue</button>
+    </div>
+
+    <div class="content-wrapper">
+      <aside class="side-bar">
+        <h3>Car Rental Tips & Offers</h3>
+        <p>
+          🚗 Find the best rental deals with us! Get up to 25% off select car
+          rentals.
+        </p>
+        <p>🔑 Book early to secure your preferred car model and type.</p>
+        <p>
+          💡 Tip: Consider your trip duration and luggage when selecting the car
+          type.
+        </p>
+        <p>
+          🛣️ Choose economy cars for city trips, or SUVs for more rugged
+          destinations!
+        </p>
+      </aside>
+
+      <main class="main-content">
+        <h2>Rent a Car</h2>
+        <form id="carForm">
+          <label for="city">City:</label>
+          <input type="text" id="city" name="city" required /><br />
+          <p class="error" id="errorCity"></p>
+
+          <label for="carType">Type of Car:</label>
+          <select id="carType" name="carType" onchange="setCarType(this.value)">
+            <option value="Economy">Economy</option>
+            <option value="SUV">SUV</option>
+            <option value="Compact">Compact</option>
+            <option value="Midsize">Midsize</option></select
+          ><br />
+
+          <label for="checkIn">Check-In Date:</label>
+          <input type="date" id="checkIn" name="checkIn" required /><br />
+          <p class="error" id="errorChekcInDate"></p>
+
+          <label for="checkOut">Check-Out Date:</label>
+          <input type="date" id="checkOut" name="checkOut" required /><br />
+          <p class="error" id="errorChekcOutDate"></p>
+          <p class="error" id="errorCheckInOutDate"></p>
+
+          <button type="submit" onclick="validateForm(event)">Search</button>
+        </form>
+
+        <div class="results">
+          <h3>Car Rental Details</h3>
+          <p id="cityVal"></p>
+          <p id="typeVal"></p>
+          <p id="checkInVal"></p>
+          <p id="checkOutVal"></p>
+        </div>
+      </main>
+    </div>
+    <footer>
+      <p id="footPara"></p>
+      <p>Moksh Vaghasia, MXV220071, (002)</p>
+      <p>Kyu Shim, KJS170230, (002)</p>
+      <p>Aditya Swaroop, AXS230571, (002)</p>
+    </footer>
+    <script>
+      const footerDate = document.getElementById("footPara");
+      const now = new Date();
+      const year = now.getFullYear();
+      footerDate.textContent = "@Copyright " + year.toString();
+
+      function changeSize(s) {
+        const allElement = document.getElementsByClassName("main-content");
+        for (let i = 0; i < allElement.length; i++) {
+          allElement[i].style.fontSize = s;
+        }
+      }
+
+      function changeColor(color) {
+        document.getElementById("main-body").style.backgroundColor = color;
+      }
+
+      var carType = "Economy";
+      function setCarType(val) {
+        carType = val;
+      }
+
+      function validateForm(event) {
+        event.preventDefault();
+        let error = 0;
+
+        const checkInDate = document.getElementById("checkIn").value.split("-");
+        const checkOutDate = document
+          .getElementById("checkOut")
+          .value.split("-");
+        const minDate = new Date("09/01/2024").getTime();
+        const maxDate = new Date("12/01/2024").getTime();
+
+        const reorderCheckInDate =
+          checkInDate[1] + "/" + checkInDate[2] + "/" + checkInDate[0];
+        const reorderCheckOutDate =
+          checkOutDate[1] + "/" + checkOutDate[2] + "/" + checkOutDate[0];
+
+        const cID = new Date(reorderCheckInDate).getTime();
+        const cOD = new Date(reorderCheckOutDate).getTime();
+
+        if (cID < minDate || cID > maxDate) {
+          error++;
+          document.getElementById("errorChekcInDate").textContent =
+            "Check-In date must be between September 1st and December 1st";
+        } else {
+          document.getElementById("errorChekcInDate").textContent = "";
+        }
+
+        if (cOD < minDate || cOD > maxDate) {
+          error++;
+          document.getElementById("errorChekcOutDate").textContent =
+            "Check-Out date must be between September 1st and December 1st";
+        } else {
+          document.getElementById("errorChekcOutDate").textContent = "";
+        }
+
+        if (cOD < cID) {
+          error++;
+          document.getElementById("errorCheckInOutDate").textContent =
+            "Check-Out date must be after Check-In date";
+        } else {
+          document.getElementById("errorCheckInOutDate").textContent = "";
+        }
+
+        const stayCity = document.getElementById("city").value;
+        let cityFlag = true;
+        for (let i = 0; i < allCities.length; i++) {
+          if (allCities[i].toLowerCase() === stayCity.toLowerCase()) {
+            cityFlag = false;
+            break;
+          }
+        }
+
+        if (cityFlag) {
+          error++;
+          document.getElementById("errorCity").textContent =
+            "Please enter city.";
+        } else {
+          document.getElementById("errorCity").textContent = "";
+        }
+
+        if (error === 0) {
+          document.querySelector(".results").style.display = "block";
+          document.getElementById("cityVal").textContent = "City: " + stayCity;
+          document.getElementById("typeVal").textContent =
+            "Car Type: " + carType;
+          document.getElementById("checkInVal").textContent =
+            "Check-In Date: " + reorderCheckInDate;
+          document.getElementById("checkOutVal").textContent =
+            "Check-Out Date: " + reorderCheckOutDate;
+        } else {
+          document.querySelector(".results").style.display = "none";
+        }
+      }
+    </script>
+  </body>
+</html>

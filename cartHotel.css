@@ -1,0 +1,151 @@
+/* General Page Layout */
+body {
+  font-family: "Arial", sans-serif;
+  background-color: #f4f4f4;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+h1 {
+  text-align: center;
+  font-size: 2.5em;
+  color: #007bbf;
+  margin-top: 30px;
+  margin-bottom: 20px;
+}
+
+/* Total Price Container */
+#totalPriceConatiner {
+  font-size: 1.6em;
+  font-weight: bold;
+  text-align: center;
+  color: #333;
+  padding: 15px;
+  background-color: #fff;
+  border-radius: 8px;
+  margin-bottom: 30px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Content Section for Hotels */
+#content {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  width: 80%;
+  margin: 0 auto;
+}
+
+/* Individual Hotel Booking Style */
+#content > div {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+#content > div:hover {
+  transform: translateY(-5px);
+  box-shadow: 0px 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Hotel Details */
+#content > div h4 {
+  font-size: 1.3em;
+  color: #007bbf;
+  margin-bottom: 10px;
+}
+
+#content > div p {
+  font-size: 1.1em;
+  color: #555;
+  margin-bottom: 8px;
+}
+
+/* Hidden Hotel ID */
+input[type="hidden"] {
+  display: none;
+}
+
+/* Guest Details Form */
+.hotel-form {
+  margin-top: 20px;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.hotel-form h4 {
+  font-size: 1.4em;
+  color: #007bbf;
+  margin-bottom: 20px;
+}
+
+.hotel-form input[type="text"],
+.hotel-form input[type="date"],
+.hotel-form input[type="number"] {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1.1em;
+}
+
+.hotel-form input[type="text"]:focus,
+.hotel-form input[type="date"]:focus,
+.hotel-form input[type="number"]:focus {
+  border-color: #007bbf;
+  outline: none;
+}
+
+/* Button Styling */
+#bookAllHotelsBtn {
+  display: block;
+  width: 100%;
+  padding: 15px;
+  font-size: 1.3em;
+  background-color: #007bbf;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  margin-top: 30px;
+}
+
+#bookAllHotelsBtn:hover {
+  background-color: #004e75;
+  transform: scale(1.05);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  #content {
+    width: 90%;
+  }
+
+  h1 {
+    font-size: 2.2em;
+  }
+
+  #totalPriceConatiner {
+    font-size: 1.4em;
+  }
+
+  .hotel-form input[type="text"],
+  .hotel-form input[type="date"],
+  .hotel-form input[type="number"] {
+    font-size: 1em;
+  }
+
+  #bookAllHotelsBtn {
+    font-size: 1.1em;
+  }
+}

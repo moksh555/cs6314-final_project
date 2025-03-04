@@ -1,0 +1,40 @@
+[
+  {
+    "flightId": "TXCA002",
+    "origin": "Dallas",
+    "destination": "San Jose",
+    "departureDate": "2024-11-17",
+    "arrivalDate": "2024-11-17",
+    "price": "200",
+    "adults": "1",
+    "children": "0",
+    "infants": "0",
+    "passengers": [
+      {
+        "firstName": "Passenger1",
+        "lastName": "LastName1",
+        "dob": "1990-01-01",
+        "ssn": "XXX-XX-XXXX"
+      }
+    ]
+  },
+  {
+    "flightId": "TXCA002",
+    "origin": "Dallas",
+    "destination": "San Jose",
+    "departureDate": "2024-11-17",
+    "arrivalDate": "2024-11-17",
+    "price": "200",
+    "adults": "1",
+    "children": "0",
+    "infants": "0",
+    "passengers": [
+      {
+        "firstName": "Passenger1",
+        "lastName": "LastName1",
+        "dob": "1990-01-01",
+        "ssn": "XXX-XX-XXXX"
+      }
+    ]
+  }
+]

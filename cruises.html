@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Cruises - Travel Deals</title>
+    <link rel="stylesheet" href="mystyle.css" />
+    <link rel="stylesheet" href="flights.css" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  </head>
+  <body id="main-body">
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="stays.html">Stays</a></li>
+        <li><a href="flights.html">Flights</a></li>
+        <!-- <li><a href="cars.html">Cars</a></li>
+        <li><a href="cruises.html">Cruises</a></li> -->
+        <li><a href="contact-us.html">Contact Us</a></li>
+        <li><a href="cart.html">Cart</a></li>
+        <li><a href="flighBookingHistory.html">Flight Booking </a></li>
+        <li><a href="hotelBookingHistory.html">Hotel Booking</a></li>
+      </ul>
+    </nav>
+
+    <div class="controls">
+      <label for="fontSize">Font Size:</label>
+      <button onclick="changeSize('16px')">Normal</button>
+      <button onclick="changeSize('20px')">Large</button>
+      <button onclick="changeSize('24px')">Extra Large</button>
+
+      <label for="bgColor">Background Color:</label>
+      <button onclick="changeColor('#ffffff')">White</button>
+      <button onclick="changeColor('#cfcfcf')">Gray</button>
+      <button onclick="changeColor('#000000')">Black</button>
+    </div>
+
+    <div class="content-wrapper">
+      <!-- Aside Section -->
+      <aside class="side-bar">
+        <h3>Travel Tips for Cruises</h3>
+        <ul>
+          <li>🛳️ Book early to secure the best cabins and fares.</li>
+          <li>
+            💡 Look for last-minute deals to grab discounts on empty cabins.
+          </li>
+          <li>
+            🛥️ Choose destinations based on the season for the best weather.
+          </li>
+          <li>🍽️ Pre-book dining and activities to avoid missing out.</li>
+          <li>
+            🚢 Consider travel insurance for extra peace of mind on your cruise
+            journey.
+          </li>
+        </ul>
+      </aside>
+
+      <!-- Main Content Section -->
+      <main class="main-content">
+        <h2>Book a Cruise</h2>
+        <form id="cruiseForm">
+          <label for="destination">Destination:</label>
+          <select
+            id="destination"
+            name="destination"
+            onchange="destinationChange(this.value)"
+          >
+            <option value="">Select</option>
+            <option value="Alaska">Alaska</option>
+            <option value="Bahamas">Bahamas</option>
+            <option value="Europe">Europe</option>
+            <option value="Mexico">Mexico</option>
+          </select>
+          <p class="error" id="errorDestination"></p>
+
+          <label for="departing">Departing Between:</label>
+          <input type="date" id="departing" name="departing" required /><br />
+          <p class="error" id="errorDeparting"></p>
+
+          <label for="duration">Duration (days):</label>
+          <input
+            type="number"
+            id="minDuration"
+            name="minDuration"
+            placeholder="Min"
+            required
+          />
+          <input
+            type="number"
+            id="maxDuration"
+            name="maxDuration"
+            placeholder="Max"
+            required
+          /><br />
+          <p class="error" id="errorDuration"></p>
+
+          <label for="adults">Adults:</label>
+          <input
+            type="number"
+            id="adults"
+            name="adults"
+            min="1"
+            value="1"
+          /><br />
+
+          <label for="children">Children:</label>
+          <input
+            type="number"
+            id="children"
+            name="children"
+            min="0"
+            value="0"
+          /><br />
+
+          <label for="infants">Infants:</label>
+          <input
+            type="number"
+            id="infants"
+            name="infants"
+            min="0"
+            value="0"
+          /><br />
+          <p class="error" id="errorGuesses"></p>
+
+          <button type="submit" onclick="validateForm(event)">Search</button>
+        </form>
+
+        <div class="results">
+          <h3>Cruise Details</h3>
+          <p id="destinationVal"></p>
+          <p id="departingVal"></p>
+          <p id="durationVal"></p>
+          <p id="adultsVal"></p>
+          <p id="childrenVal"></p>
+          <p id="infantsVal"></p>
+          <p id="roomsVal"></p>
+        </div>
+      </main>
+    </div>
+    <footer>
+      <p id="footPara"></p>
+      <p>Moksh Vaghasia, MXV220071, (002)</p>
+      <p>Kyu Shim, KJS170230, (002)</p>
+      <p>Aditya Swaroop, AXS230571, (002)</p>
+    </footer>
+    <script>
+      function changeSize(s) {
+        $(".main-content").css("fontSize", s);
+      }
+
+      function changeColor(color) {
+        $("#main-body").css("backgroundColor", color);
+      }
+      const footerDate = document.getElementById("footPara");
+      const now = new Date();
+      const year = now.getFullYear();
+      footerDate.textContent = "@Copyright " + year.toString();
+      let destination;
+
+      function destinationChange(val) {
+        destination = val;
+      }
+
+      function validateForm(event) {
+        event.preventDefault();
+        let error = 0;
+        const destination = $("#destination").val();
+        const departing = $("#departing").val().split("-");
+        console.log(departing, departing.length);
+
+        const reorderDeparting =
+          departing[1] + "/" + departing[2] + "/" + departing[0];
+        const departingDate = new Date(reorderDeparting).getTime();
+        const minDuration = parseInt($("#minDuration").val());
+        const maxDuration = parseInt($("#maxDuration").val());
+        const adults = parseInt($("#adults").val());
+        const children = parseInt($("#children").val());
+        const infants = parseInt($("#infants").val());
+
+        // Validation
+        const minDate = new Date("09/01/2024").getTime();
+        const maxDate = new Date("12/01/2024").getTime();
+
+        if (!destination) {
+          error++;
+          $("#errorDestination").text("Please select a destination");
+        } else {
+          $("#errorDestination").text("");
+        }
+
+        if (!minDuration || !maxDuration) {
+          error++;
+          $("#errorDuration").text("Duration fields cannot be empty");
+        } else if (minDuration < 3) {
+          error++;
+          $("#errorDuration").text("Minimum duration cannot be less than 3");
+        } else if (maxDuration > 10) {
+          error++;
+          $("#errorDuration").text("Maximum duration cannot be more than 10");
+        } else if (minDuration > maxDuration) {
+          error++;
+          $("#errorDuration").text(
+            "Minimum duration cannot be more than Maximum duration"
+          );
+        } else {
+          $("#errorDuration").text("");
+        }
+        if (departing.length < 3) {
+          error++;
+          console.log(1);
+          $("#errorDeparting").text("Please selecta Date");
+        } else if (departingDate < minDate) {
+          error++;
+          $("#errorDeparting").text("Date must be after September");
+        } else if (departingDate > maxDate) {
+          error++;
+          $("#errorDeparting").text("Date must be before December");
+        } else {
+          $("#errorDeparting").text("");
+        }
+
+        if (adults === 0) {
+          error++;
+          $("#errorGuesses").text("There must be at least one adult booking");
+        } else {
+          $("#errorGuesses").text("");
+        }
+
+        // Calculate total guests
+        const totalGuests = adults + children;
+        const rooms = Math.ceil(totalGuests / 2);
+
+        if (error === 0) {
+          $(".results").css("display", "block");
+          $("#destinationVal").text(`Destination: ${destination}`);
+          $("#departingVal").text(`Departing Date: ${reorderDeparting}`);
+          $("#durationVal").text(
+            `Minimum Days: ${minDuration}, Maximum Duration: ${maxDuration}`
+          );
+          $("#adultsVal").text(`Adults Booking: ${adults}`);
+          $("#childrenVal").text(`Children Booking: ${children}`);
+          $("#infantsVal").text(`Infants Booking: ${infants}`);
+          $("#roomsVal").text(`Rooms: ${rooms}`);
+        } else {
+          $(".results").css("display", "none");
+        }
+      }
+    </script>
+  </body>
+</html>

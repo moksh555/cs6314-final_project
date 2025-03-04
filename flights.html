@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Flights - Travel Deals</title>
+    <link rel="stylesheet" href="mystyle.css" />
+    <link rel="stylesheet" href="flights.css" />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+  </head>
+  <body id="main-body">
+    <div id="general">
+      <p id="datetime"></p>
+      <p id="userGreeting">Welcome, Guest!</p>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="stays.html">Stays</a></li>
+        <li><a href="flights.html">Flights</a></li>
+        <!-- <li><a href="cars.html">Cars</a></li>
+        <li><a href="cruises.html">Cruises</a></li> -->
+        <li><a href="contact-us.html">Contact Us</a></li>
+        <li><a href="cart.html">My Flight Cart</a></li>
+        <li><a href="cartHotel.html">My Cart Hotel </a></li>
+        <li><a href="flighBookingHistory.html">Flight Booking </a></li>
+        <li><a href="hotelBookingHistory.html">Hotel Booking</a></li>
+        <li><a href="my-account.html">My Account</a></li>
+      </ul>
+    </nav>
+    <div class="controls">
+      <label for="fontSize">Font Size:</label>
+      <button onclick="changeSize('16px')">Normal</button>
+      <button onclick="changeSize('20px')">Large</button>
+      <button onclick="changeSize('24px')">Extra Large</button>
+
+      <label for="bgColor">Background Color:</label>
+      <button onclick="changeColor('#ffffff')">White</button>
+      <button onclick="changeColor('#cfcfcf')">Gray</button>
+      <button onclick="changeColor('#000000')">Black</button>
+    </div>
+
+    <div class="content-wrapper">
+      <aside class="side-bar">
+        <h3>Travel Tips & Offers</h3>
+        <p>
+          🌍 Discover the best flight deals with our real-time pricing. Get up
+          to 30% off select flights!
+        </p>
+        <p>
+          ✈️ Book early to secure the best seats and fares. Also, check our
+          exclusive deals on round-trip flights!
+        </p>
+        <p>
+          💡 Tip: Don't forget to check baggage policies and pack light for an
+          easy check-in experience.
+        </p>
+      </aside>
+
+      <main class="main-content">
+        <h2>Book Flights</h2>
+        <form id="flightForm">
+          <label for="tripType">Trip Type:</label>
+          <select
+            id="tripType"
+            name="tripType"
+            onchange="changingTrip(this.value)"
+          >
+            <option value="OW">One Way</option>
+            <option value="RT">Round Trip</option></select
+          ><br />
+
+          <label for="origin">Origin:</label>
+          <input type="text" id="origin" name="origin" required /><br />
+          <p class="error" id="errorOriginCity"></p>
+
+          <label for="destination">Destination:</label>
+          <input
+            type="text"
+            id="destination"
+            name="destination"
+            required
+          /><br />
+          <p class="error" id="errorDestinationCity"></p>
+
+          <label for="departureDate">Departure Date:</label>
+          <input
+            type="date"
+            id="departureDate"
+            name="departureDate"
+            required
+          /><br />
+          <p class="error" id="errorDepartureDate"></p>
+
+          <div id="returnDateDiv" style="display: none">
+            <label for="returnDate">Return Date:</label>
+            <input type="date" id="returnDate" name="returnDate" /><br />
+            <p class="error" id="errorReturnDate"></p>
+          </div>
+
+          <label for="passengerIcon">Passengers:</label>
+          <i
+            id="passengerIcon"
+            class="fas fa-user-friends icon-style"
+            onclick="togglePassengerForm()"
+            title="Select Passengers"
+          ></i>
+          <br />
+
+          <div id="passengerForm" style="display: none">
+            <label for="adults">Adults:</label>
+            <input type="number" id="adults" name="adults" value="1" /><br />
+
+            <label for="children">Children:</label>
+            <input
+              type="number"
+              id="children"
+              name="children"
+              value="0"
+            /><br />
+
+            <label for="infants">Infants:</label>
+            <input type="number" id="infants" name="infants" value="0" /><br />
+            <p class="error" id="errorPassengers"></p>
+          </div>
+          <p class="error" id="errorPassengersBtn"></p>
+
+          <button type="submit" onclick="validateForm(event)">Search</button>
+        </form>
+
+        <div id="answer"></div>
+      </main>
+    </div>
+    <footer>
+      <p id="footPara"></p>
+      <p>Moksh Vaghasia, MXV220071, (002)</p>
+      <p>Kyu Shim, KJS170230, (002)</p>
+      <p>Aditya Swaroop, AXS230571, (002)</p>
+    </footer>
+    <script>
+      const footerDate = document.getElementById("footPara");
+      const now = new Date();
+      const year = now.getFullYear();
+      footerDate.textContent = "@Copyright " + year.toString();
+      function changeSize(s) {
+        const allElement = document.getElementsByClassName("main-content");
+        for (let i = 0; i < allElement.length; i++) {
+          allElement[i].style.fontSize = s;
+        }
+      }
+      document.getElementById("answer").innerHTML = "";
+      function changeColor(color) {
+        document.getElementById("main-body").style.backgroundColor = color;
+      }
+
+      function addToCart(flightId) {
+        const adults = parseInt(document.getElementById("adults").value);
+        const children = parseInt(document.getElementById("children").value);
+        const infants = parseInt(document.getElementById("infants").value);
+        const passengers = adults + children + infants;
+        console.log(adults, children, infants, passengers);
+        fetch("server.php", {
+          method: "POST",
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body: new URLSearchParams({
+            action: "addToCart",
+            flightId: flightId,
+            adults: adults,
+            children: children,
+            infants: infants,
+            totalPassengers: passengers,
+          }),
+        })
+          .then((response) => response.json())
+          .then((result) => {
+            if (result.success) {
+              // alert(result.message || "Added to cart successfully.");
+              const queryPara = document.getElementById(flightId);
+              queryPara.innerHTML =
+                result.message || "Added to cart successfully.";
+            } else {
+              const queryPara = document.getElementById(flightId);
+              queryPara.innerHTML = result.errors.join("\n");
+            }
+          })
+          .catch((error) => {
+            console.error("Error adding to cart:", error);
+          });
+      }
+
+      var returnFlag = false;
+      function changingTrip(val) {
+        const ele = document.getElementById("returnDateDiv");
+        if (val === "RT") {
+          ele.style.display = "block";
+          returnFlag = true;
+        } else {
+          ele.style.display = "none";
+          returnFlag = false;
+        }
+      }
+      var totalPassenger;
+      var passenegerFlag = false;
+      function togglePassengerForm() {
+        if (!passenegerFlag) {
+          const pForm = document.getElementById("passengerForm");
+          pForm.style.display = "block";
+          passenegerFlag = true;
+        } else {
+          const pForm = document.getElementById("passengerForm");
+          pForm.style.display = "none";
+          passenegerFlag = false;
+        }
+      }
+
+      function validateForm(event) {
+        event.preventDefault();
+        let error = 0;
+
+        const allCities = [
+          "Los Angeles",
+          "San Francisco",
+          "San Diego",
+          "San Jose",
+          "Fresno",
+          "Sacramento",
+          "Long Beach",
+          "Oakland",
+          "Bakersfield",
+          "Anaheim",
+          "Santa Ana",
+          "Riverside",
+          "Stockton",
+          "Chula Vista",
+          "Irvine",
+          "Fremont",
+          "San Bernardino",
+          "Modesto",
+          "Fontana",
+          "Oxnard",
+          "Moreno Valley",
+          "Glendale",
+          "Huntington Beach",
+          "Santa Clarita",
+          "Garden Grove",
+          "Oceanside",
+          "Rancho Cucamonga",
+          "Ontario",
+          "Lancaster",
+          "Elk Grove",
+          "Houston",
+          "San Antonio",
+          "Dallas",
+          "Austin",
+          "Fort Worth",
+          "El Paso",
+          "Arlington",
+          "Corpus Christi",
+          "Plano",
+          "Laredo",
+          "Lubbock",
+          "Garland",
+          "Irving",
+          "Amarillo",
+          "Grand Prairie",
+          "McKinney",
+          "Frisco",
+          "Brownsville",
+          "Pasadena",
+          "Killeen",
+          "Mesquite",
+          "McAllen",
+          "Denton",
+          "Midland",
+          "Waco",
+          "Carrollton",
+          "Round Rock",
+          "Abilene",
+          "Pearland",
+          "Richardson",
+          "Odessa",
+          "Sugar Land",
+          "College Station",
+          "Lewisville",
+          "Tyler",
+          "League City",
+          "Wichita Falls",
+          "Allen",
+          "San Angelo",
+          "Edinburg",
+          "Conroe",
+          "Bryan",
+          "Mission",
+          "New Braunfels",
+          "Longview",
+          "Pharr",
+          "Flower Mound",
+          "Baytown",
+          "Cedar Park",
+          "Temple",
+          "Georgetown",
+          "Mansfield",
+          "Victoria",
+          "Harlingen",
+          "Rowlett",
+          "Pflugerville",
+          "Port Arthur",
+          "Euless",
+          "DeSoto",
+          "Grapevine",
+          "Galveston",
+          "Bedford",
+          "Cedar Hill",
+          "Texas City",
+          "Wylie",
+          "Haltom City",
+          "Keller",
+          "Coppell",
+          "Rockwall",
+          "Huntsville",
+          "Duncanville",
+          "Sherman",
+          "The Colony",
+          "Burleson",
+          "Hurst",
+          "Lancaster",
+          "Texarkana",
+          "Friendswood",
+          "Weslaco",
+          "Del Rio",
+          "Lufkin",
+          "San Juan",
+          "La Porte",
+          "Nacogdoches",
+          "Copperas Cove",
+          "Schertz",
+          "Socorro",
+          "Rosenberg",
+          "Waxahachie",
+          "Cleburne",
+          "Farmers Branch",
+          "Kyle",
+          "Big Spring",
+          "Lake Jackson",
+          "Harker Heights",
+          "Leander",
+          "Eagle Pass",
+        ];
+
+        var dateDeparture = document.getElementById("departureDate").value;
+        var dateDepartueUse = dateDeparture;
+        const dt = dateDeparture.split("-");
+        const minDate = new Date("09/01/2024").getTime();
+        const maxDate = new Date("12/01/2024").getTime();
+        dateDeparture = new Date(dt[1] + "/" + dt[2] + "/" + dt[0]).getTime();
+
+        if (dateDeparture < minDate || dateDeparture > maxDate) {
+          document.getElementById("errorDepartureDate").textContent =
+            "Please select a departure date between September 1st and December 1st, 2024";
+          error++;
+        } else {
+          document.getElementById("errorDepartureDate").textContent = "";
+        }
+        var dateReturnUse = null;
+        if (returnFlag) {
+          var dateReturn = document.getElementById("returnDate").value;
+          dateReturnUse = dateReturn;
+
+          if (dateReturn) {
+            const dr = dateReturn.split("-");
+            dateReturn = new Date(dr[1] + "/" + dr[2] + "/" + dr[0]).getTime();
+            if (dateReturn <= dateDeparture) {
+              document.getElementById("errorReturnDate").textContent =
+                "Return date must be after departure date.";
+              error++;
+            } else {
+              document.getElementById("errorReturnDate").textContent = "";
+            }
+          } else {
+            document.getElementById("errorReturnDate").textContent =
+              "Please select a return date.";
+            error++;
+          }
+        }
+
+        const originCity = document.getElementById("origin").value;
+        const destinationCity = document.getElementById("destination").value;
+
+        if (!allCities.includes(originCity)) {
+          document.getElementById("errorOriginCity").textContent =
+            "Origin city must be in California or Texas";
+          error++;
+        } else {
+          document.getElementById("errorOriginCity").textContent = "";
+        }
+
+        if (!allCities.includes(destinationCity)) {
+          document.getElementById("errorDestinationCity").textContent =
+            "Destination city must be in California or Texas";
+          error++;
+        } else {
+          document.getElementById("errorDestinationCity").textContent = "";
+        }
+        console.log(error);
+
+        if (!passenegerFlag) {
+          document.getElementById("errorPassengersBtn").textContent =
+            "Please select the number of passengers.";
+          error++;
+        } else {
+          document.getElementById("errorPassengersBtn").textContent = "";
+          const adults = parseInt(document.getElementById("adults").value);
+          const children = parseInt(document.getElementById("children").value);
+          const infants = parseInt(document.getElementById("infants").value);
+          totalPassenger = adults + children + infants;
+          if (adults === 0) {
+            document.getElementById("errorPassengers").textContent =
+              "There should be at least 1 adult passenger.";
+            error++;
+          } else if (adults > 4 || children > 4 || infants > 4) {
+            document.getElementById("errorPassengers").textContent =
+              "No category should have more than 4 passengers.";
+            error++;
+          } else {
+            document.getElementById("errorPassengers").textContent = "";
+          }
+        }
+
+        if (error === 0) {
+          var data;
+          if (!returnFlag) {
+            const data = {
+              action: "searchOWFlights",
+              originCity,
+              destinationCity,
+              dateDepartueUse,
+              totalPassenger,
+            };
+            fetch("server.php", {
+              method: "POST",
+              headers: { "Content-Type": "application/x-www-form-urlencoded" },
+              body: new URLSearchParams(data),
+            })
+              .then((response) => response.json())
+              .then((result) => {
+                const resultContainer = document.getElementById("answer");
+                resultContainer.innerHTML = "";
+                resultContainer.innerHTML = "<h3>Search Results</h3>";
+
+                if (result.success && result.flights) {
+                  result.flights.forEach((flight) => {
+                    resultContainer.innerHTML += `
+                        <div>
+                        <p>Flight ID: ${flight.flight_id}<p>
+                        <p>Origin: ${flight.origin}<p>
+                        <p>Destination: ${flight.destination}<p>
+                        <p>Departure Date: ${flight.departure_date}<p>
+                        <p>Arrival Date: ${flight.arrival_date}<p>
+                        <p>Departure Time: ${flight.departure_time}<p>
+                        <p>Arrival Time: ${flight.arrival_time}<p>
+                        <p>Seats: ${flight.available_seats}<p>
+                        <p>Price: $${flight.price}<p>
+                        <button onclick="addToCart('${flight.flight_id}')">Add to Cart</button>
+                        <p id="${flight.flight_id}"><p>
+                          </div>
+                    `;
+                  });
+                } else {
+                  resultContainer.innerHTML += `<p>${
+                    result.message || "No flights found."
+                  }</p>`;
+                }
+              })
+              .catch((error) => {
+                console.error("Error fetching flights:", error);
+              });
+          } else {
+            const data1 = {
+              action: "searchOWFlights",
+              originCity,
+              destinationCity,
+              dateDepartueUse,
+              totalPassenger,
+            };
+            fetch("server.php", {
+              method: "POST",
+              headers: { "Content-Type": "application/x-www-form-urlencoded" },
+              body: new URLSearchParams(data1),
+            })
+              .then((response) => response.json())
+              .then((result) => {
+                const resultContainer = document.getElementById("answer");
+                resultContainer.innerHTML = "";
+                resultContainer.innerHTML = "<h3>Search Results</h3>";
+
+                if (result.success && result.flights) {
+                  result.flights.forEach((flight) => {
+                    resultContainer.innerHTML += `<div>
+                        <p>Flight ID: ${flight.flight_id}<p>
+                        <p>Origin: ${flight.origin}<p>
+                        <p>Destination: ${flight.destination}<p>
+                        <p>Departure Date: ${flight.departure_date}<p>
+                        <p>Arrival Date: ${flight.arrival_date}<p>
+                        <p>Departure Time: ${flight.departure_time}<p>
+                        <p>Arrival Time: ${flight.arrival_time}<p>
+                        <p>Seats: ${flight.available_seats}<p>
+                        <p>Price: $${flight.price}<p>
+                        <button onclick="addToCart('${flight.flight_id}')">Add to Cart</button>
+                        <p id="${flight.flight_id}"><p>
+                          </div>`;
+                  });
+                } else {
+                  resultContainer.innerHTML += `<p>${
+                    result.message || "No flights found."
+                  }</p>`;
+                }
+              })
+              .catch((error) => {
+                console.error("Error fetching flights:", error);
+              });
+
+            const data2 = {
+              action: "searchOWFlights",
+              destinationCity: originCity,
+              originCity: destinationCity,
+              dateDepartueUse: dateReturnUse,
+              totalPassenger,
+            };
+            fetch("server.php", {
+              method: "POST",
+              headers: { "Content-Type": "application/x-www-form-urlencoded" },
+              body: new URLSearchParams(data2),
+            })
+              .then((response) => response.json())
+              .then((result) => {
+                const resultContainer = document.getElementById("answer");
+                resultContainer.innerHTML += "<h3>Search Return Results</h3>";
+
+                if (result.success && result.flights) {
+                  result.flights.forEach((flight) => {
+                    resultContainer.innerHTML += `<div>
+                        <p>Flight ID: ${flight.flight_id}<p>
+                        <p>Origin: ${flight.origin}<p>
+                        <p>Destination: ${flight.destination}<p>
+                        <p>Departure Date: ${flight.departure_date}<p>
+                        <p>Arrival Date: ${flight.arrival_date}<p>
+                        <p>Departure Time: ${flight.departure_time}<p>
+                        <p>Arrival Time: ${flight.arrival_time}<p>
+                        <p>Seats: ${flight.available_seats}<p>
+                        <p>Price: $${flight.price}<p>
+                        <button onclick="addToCart('${flight.flight_id}')">Add to Cart</button>
+                        <p id="${flight.flight_id}"><p>
+                          </div>`;
+                  });
+                } else {
+                  resultContainer.innerHTML += `<p>${
+                    result.message || "No flights found."
+                  }</p>`;
+                }
+              })
+              .catch((error) => {
+                console.error("Error fetching flights:", error);
+              });
+          }
+        }
+      }
+    </script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="js/userData.js"></script>
+  </body>
+</html>

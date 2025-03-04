@@ -1,0 +1,21 @@
+[
+  {
+    "flightId": "TXCA001",
+    "origin": "Dallas",
+    "destination": "San Jose",
+    "departureDate": "2024-11-17",
+    "arrivalDate": "2024-11-17",
+    "price": "150",
+    "adults": "1",
+    "children": "0",
+    "infants": "0",
+    "passengers": [
+      {
+        "firstName": "Moksh",
+        "lastName": "Vaghasia",
+        "dob": "2024-11-17",
+        "ssn": "1217841412"
+      }
+    ]
+  }
+]

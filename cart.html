@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Cart - Travel Deals</title>
+    <link rel="stylesheet" href="mystyle.css" />
+    <link rel="stylesheet" href="cart.css" />
+  </head>
+  <body id="main-body">
+    <div id="general">
+      <p id="datetime"></p>
+      <p id="userGreeting">Welcome, Guest!</p>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="stays.html">Stays</a></li>
+        <li><a href="flights.html">Flights</a></li>
+        <!-- <li><a href="cars.html">Cars</a></li>
+        <li><a href="cruises.html">Cruises</a></li> -->
+        <li><a href="contact-us.html">Contact Us</a></li>
+        <li><a href="cart.html">My Flight Cart</a></li>
+        <li><a href="cartHotel.html">My Cart Hotel </a></li>
+        <li><a href="flighBookingHistory.html">Flight Booking </a></li>
+        <li><a href="hotelBookingHistory.html">Hotel Booking</a></li>
+        <li><a href="my-account.html">My Account</a></li>
+      </ul>
+    </nav>
+    <h1>Your Cart</h1>
+    <div class="content-wrapper">
+      <div id="cart-container"></div>
+      <div calss="price-summary">
+        <div class="price-box">
+          <div id="total-price-container"></div>
+        </div>
+      </div>
+
+      <div id="flights"></div>
+      <div id="hotels"></div>
+      <div id="booking-button-container">
+        <button id="booking-button" onclick="bookingFunc()">Book Now</button>
+      </div>
+      <div id="booking-form-container"></div>
+      <div>
+        <button
+          id="confirmBookingButton"
+          type="button"
+          onclick="confirmBooking(event)"
+          style="display: none"
+        >
+          Confirm Booking
+        </button>
+      </div>
+      <div id="booking-confirmation-container"></div>
+    </div>
+
+    <script>
+      function bookingFunc() {
+        const bookingFormContainer = document.getElementById(
+          "booking-form-container"
+        );
+        bookingFormContainer.innerHTML = "";
+
+        // Fetch cart data
+        fetch("server.php", {
+          method: "POST",
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body: new URLSearchParams({ action: "fetchCart" }),
+        })
+          .then((response) => response.json())
+          .then((cartData) => {
+            if (cartData.success && cartData.cartItems) {
+              cartData.cartItems.forEach((item, index) => {
+                const flightSection = document.createElement("div");
+                flightSection.classList.add("flight-section");
+                flightSection.innerHTML = `
+                  <h3>Flight: ${item.flight_id} (${item.origin} → ${item.destination})</h3>
+                  <p>Departure: ${item.departure_date} ${item.departure_time}</p>
+                  <p>Arrival: ${item.arrival_date} ${item.arrival_time}</p>
+                `;
+
+                const passengerForm = document.createElement("form");
+                passengerForm.classList.add("passenger-form");
+                passengerForm.id = `passenger-form-${index}`;
+
+                // Add fields for Adults
+                for (let i = 1; i <= item.adults; i++) {
+                  passengerForm.innerHTML += `
+                    <h4>Adult ${i}</h4>
+                    <label>First Name:</label><input type="text" name="firstName" required />
+                    <label>Last Name:</label><input type="text" name="lastName" required />
+                    <label>Date of Birth:</label><input type="date" name="dob" required />
+                    <label>SSN:</label><input type="text" name="ssn" required />
+                    <input type="hidden" name="category" value="Adult" />
+                  `;
+                }
+
+                // Add fields for Children
+                for (let i = 1; i <= item.children; i++) {
+                  passengerForm.innerHTML += `
+                    <h4>Child ${i}</h4>
+                    <label>First Name:</label><input type="text" name="firstName" required />
+                    <label>Last Name:</label><input type="text" name="lastName" required />
+                    <label>Date of Birth:</label><input type="date" name="dob" required />
+                    <label>SSN:</label><input type="text" name="ssn" required />
+                    <input type="hidden" name="category" value="Child" />
+                  `;
+                }
+
+                // Add fields for Infants
+                for (let i = 1; i <= item.infants; i++) {
+                  passengerForm.innerHTML += `
+                    <h4>Infant ${i}</h4>
+                    <label>First Name:</label><input type="text" name="firstName" required />
+                    <label>Last Name:</label><input type="text" name="lastName" required />
+                    <label>Date of Birth:</label><input type="date" name="dob" required />
+                    <label>SSN:</label><input type="text" name="ssn" required />
+                    <input type="hidden" name="category" value="Infant" />
+                  `;
+                }
+
+                flightSection.appendChild(passengerForm);
+                bookingFormContainer.appendChild(flightSection);
+              });
+
+              document.getElementById("confirmBookingButton").style.display =
+                "block";
+            } else {
+              bookingFormContainer.innerHTML = `<p>No flights in cart or unable to fetch cart data.</p>`;
+            }
+          })
+          .catch((error) => console.error("Error fetching cart data:", error));
+      }
+
+      function confirmBooking(event) {
+        event.preventDefault();
+
+        fetch("server.php", {
+          method: "POST",
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body: new URLSearchParams({ action: "fetchCart" }), // Server action
+        })
+          .then((response) => response.json())
+          .then((cartData) => {
+            if (cartData.success && cartData.cartItems) {
+              const bookingData = { flights: [] };
+              console.log(cartData, "moksh1");
+              const forms = document.querySelectorAll(".passenger-form");
+              forms.forEach((form, flightIndex) => {
+                console.log(forms);
+                const formData = new FormData(form);
+                console.log(formData);
+                const flightPassengers = [];
+                let totalPrice = 0;
+                const characters =
+                  "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+                let bookingId = "";
+
+                for (let i = 0; i < 10; i++) {
+                  const randomIndex = Math.floor(
+                    Math.random() * characters.length
+                  );
+                  bookingId += characters.charAt(randomIndex);
+                }
+                for (let i = 0; i < formData.getAll("firstName").length; i++) {
+                  const category = formData.getAll("category")[i];
+                  let price = 0;
+                  console.log(cartData.cartItems[flightIndex].price);
+                  if (category === "Adult")
+                    price = parseFloat(cartData.cartItems[flightIndex].price);
+                  else if (category === "Child")
+                    price =
+                      parseFloat(cartData.cartItems[flightIndex].price) * 0.7;
+                  else if (category === "Infant")
+                    price =
+                      parseFloat(cartData.cartItems[flightIndex].price) * 0.1;
+
+                  totalPrice += price;
+
+                  flightPassengers.push({
+                    firstName: formData.getAll("firstName")[i],
+                    lastName: formData.getAll("lastName")[i],
+                    dob: formData.getAll("dob")[i],
+                    ssn: formData.getAll("ssn")[i],
+                    category: category,
+                    price: price.toFixed(2),
+                  });
+                }
+
+                bookingData.flights.push({
+                  booking_id: bookingId,
+                  flightId: cartData.cartItems[flightIndex].flight_id,
+                  passengers: flightPassengers,
+                  totalPrice: totalPrice.toFixed(2),
+                });
+
+                fetch("server.php", {
+                  method: "POST",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify({
+                    action: "confirmBooking",
+                    bookingData,
+                  }),
+                })
+                  .then((response) => response.json())
+                  .then((result) => {
+                    if (result.success) {
+                      alert("Booking successful!");
+                      document.getElementById(
+                        "booking-form-container"
+                      ).innerHTML = "";
+                      document.getElementById(
+                        "confirmBookingButton"
+                      ).style.display = "none";
+                    } else {
+                      alert("Booking failed. Please try again.");
+                    }
+                  })
+                  .catch((error) =>
+                    console.error("Error confirming booking:", error)
+                  );
+              });
+            } else {
+              console.error("Failed to fetch cart data:", data.message);
+            }
+          })
+          .catch((error) => {
+            console.error("Error fetching cart data:", error);
+          });
+      }
+
+      function loadCart() {
+        fetch("server.php", {
+          method: "POST",
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body: new URLSearchParams({ action: "fetchCart" }),
+        })
+          .then((response) => response.json())
+          .then((result) => {
+            const cartContainer = document.getElementById("flights");
+            cartContainer.innerHTML = ""; // Clear the container
+
+            if (result.success && result.cartItems.length > 0) {
+              result.cartItems.forEach((item) => {
+                const flightDetails = `
+                  <div class="cart-item">
+                    <h3>Flight ID: ${item.flight_id}</h3>
+                    <p>Origin: ${item.origin}</p>
+                    <p>Destination: ${item.destination}</p>
+                    <p>Departure Date: ${item.departure_date}</p>
+                    <p>Arrival Date: ${item.arrival_date}</p>
+                    <p>Departure Time: ${item.departure_time}</p>
+                    <p>Arrival Time: ${item.arrival_time}</p>
+                    <p>Price: $${item.price}</p>
+                    <p>Passengers: ${item.adults} Adults, ${item.children} Children, ${item.infants} Infants</p>
+                  </div>
+                `;
+                cartContainer.innerHTML += flightDetails;
+              });
+
+              calculatePricing(result.cartItems);
+            } else {
+              cartContainer.innerHTML = "<p>Your Flight cart is empty.</p>";
+            }
+          })
+          .catch((error) => {
+            console.error("Error fetching cart data:", error);
+          });
+      }
+
+      function generateBookingId(length = 10) {
+        const characters =
+          "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        let bookingId = "";
+
+        for (let i = 0; i < length; i++) {
+          const randomIndex = Math.floor(Math.random() * characters.length);
+          bookingId += characters.charAt(randomIndex);
+        }
+
+        return bookingId;
+      }
+
+      function calculatePricing(cartItems) {
+        const flightPriceContainer = document.getElementById(
+          "total-price-container"
+        );
+
+        let totalFlightPrice = 0;
+        let totalHotelPrice = 0; // This will be updated once hotel functionality is added
+        console.log(cartItems);
+        // Calculate total price for flights
+        cartItems.forEach((item) => {
+          const adultsTotal = item.price * item.adults;
+          const childrenTotal = item.price * 0.7 * item.children;
+          const infantsTotal = item.price * 0.1 * item.infants;
+          totalFlightPrice += adultsTotal + childrenTotal + infantsTotal;
+        });
+
+        // Placeholder for hotel prices
+        // You can later fetch hotel data and calculate totalHotelPrice similarly
+        totalHotelPrice = 0; // Replace this with actual hotel pricing logic
+
+        const totalOverallPrice = totalFlightPrice + totalHotelPrice;
+
+        // Update the DOM with calculated values
+        flightPriceContainer.innerHTML = `<p>Total Flight Price: $${totalFlightPrice.toFixed(
+          2
+        )}</p>`;
+      }
+
+      document.addEventListener("DOMContentLoaded", loadCart);
+    </script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="js/userData.js"></script>
+  </body>
+</html>

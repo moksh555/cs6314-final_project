@@ -1,0 +1,807 @@
+/* General Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Roboto", sans-serif;
+  background-color: #eaeaea;
+  color: #333;
+  padding: 20px;
+  font-size: 1.1em;
+  line-height: 1.6;
+}
+
+/* Header Styling */
+header {
+  background-color: #007bbf;
+  color: white;
+  padding: 30px 20px;
+  text-align: center;
+  border-radius: 10px;
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+header h1 {
+  font-size: 3em;
+  letter-spacing: 1px;
+  text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.2);
+  margin-bottom: 10px;
+}
+
+/* Navigation Bar */
+nav {
+  background-color: #004e75;
+  padding: 15px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 10px;
+  margin: 20px 0;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+  margin-left: 20px;
+}
+
+nav ul li a {
+  color: white;
+  text-decoration: none;
+  padding: 12px 20px;
+  display: block;
+  font-size: 1.2em;
+  border-radius: 5px;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+nav ul li a:hover {
+  background-color: #007bbf;
+  transform: translateY(-3px);
+}
+
+#datetime {
+  color: #fff;
+  font-size: 1.2em;
+  margin-right: 30px;
+  font-weight: 600;
+}
+
+/* Control Buttons */
+.controls {
+  margin: 20px 0;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  background-color: #fff;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.controls label {
+  font-size: 1.2em;
+  margin-right: 10px;
+}
+
+.controls button {
+  padding: 10px 25px;
+  border: none;
+  background-color: #007bbf;
+  color: white;
+  font-size: 1em;
+  cursor: pointer;
+  border-radius: 10px;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.controls button:hover {
+  background-color: #004e75;
+  transform: scale(1.05);
+}
+
+/* Content Wrapper */
+.content-wrapper {
+  display: flex;
+  justify-content: space-between;
+  margin: 20px 0;
+}
+
+.side-bar {
+  width: 25%;
+  background-color: #fff;
+  padding: 20px;
+  border-right: 3px solid #ccc;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.side-bar h3 {
+  font-size: 1.5em;
+  color: #007bbf;
+  margin-bottom: 15px;
+}
+
+.side-bar p {
+  font-size: 1.1em;
+  line-height: 1.8;
+  margin-bottom: 15px;
+}
+
+.main-content {
+  width: 70%;
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.main-content h2 {
+  color: #007bbf;
+  font-size: 2em;
+  margin-bottom: 15px;
+  border-bottom: 2px solid #007bbf;
+  padding-bottom: 10px;
+}
+
+.main-content p {
+  font-size: 1.2em;
+  line-height: 1.8;
+  margin: 15px 0;
+}
+
+/* Footer */
+footer {
+  margin-top: 30px;
+  text-align: center;
+  padding: 15px 0;
+  background-color: #004e75;
+  color: white;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+footer p {
+  font-size: 1em;
+  margin: 0;
+}
+
+/* Additional Transitions */
+#main-body {
+  transition: background-color 0.5s ease;
+}
+
+/* Button Hover Effects */
+button {
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+button:hover {
+  transform: translateY(-3px);
+}
+
+/* Additional Styling for Better Visual Appeal */
+body {
+  font-size: 1.1em;
+  color: #333;
+  line-height: 1.6;
+}
+
+/* General Section Styling */
+#general {
+  display: flex;
+  justify-content: space-between; /* Space between datetime and user greeting */
+  align-items: center; /* Center them vertically */
+  background-color: #f5f5f5; /* Light background for the general section */
+  padding: 15px 25px; /* Adequate padding for spacing */
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px; /* Space below the general section */
+}
+
+/* Datetime Styling */
+#datetime {
+  color: #007bbf; /* Blue color matching the theme */
+  font-size: 1.2em;
+  font-weight: bold;
+  text-align: left;
+}
+
+/* User Greeting Styling */
+#userGreeting {
+  color: #333; /* Darker color for text contrast */
+  font-size: 1.3em;
+  font-weight: 600;
+  text-align: right;
+  letter-spacing: 1px;
+  margin: 0;
+}
+
+/* Form Input Fields */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+select,
+textarea {
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 1em;
+  box-sizing: border-box;
+  transition: border-color 0.3s ease;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+select:focus,
+textarea:focus {
+  border-color: #007bbf;
+  outline: none;
+}
+
+/* Success/Error Response Messages */
+.response-message {
+  padding: 12px;
+  margin-top: 15px;
+  border-radius: 8px;
+  font-size: 1.1em;
+  display: none;
+}
+
+.response-message.success {
+  background-color: #8bc34a;
+  color: #fff;
+}
+
+.response-message.error {
+  background-color: #f44336;
+  color: #fff;
+}
+
+/* Links Styling */
+a {
+  color: #007bbf;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+a:hover {
+  color: #004e75;
+}
+
+/* General Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Roboto", sans-serif;
+  background-color: #f5f5f5;
+  color: #333;
+  padding: 20px;
+  font-size: 1.1em;
+  line-height: 1.6;
+}
+
+/* Booking Container */
+#resultDiv {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.booking {
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.booking:hover {
+  transform: translateY(-5px);
+  box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.booking h4 {
+  font-size: 1.5em;
+  color: #007bbf;
+  margin-bottom: 15px;
+  font-weight: 600;
+}
+
+.booking p {
+  font-size: 1.1em;
+  line-height: 1.8;
+  color: #555;
+  margin-bottom: 10px;
+}
+
+.booking .flight {
+  background-color: #e0f7fa;
+  padding: 15px;
+  border-radius: 8px;
+  margin-top: 10px;
+  border-left: 5px solid #007bbf;
+}
+
+.booking .hotel {
+  background-color: #f1f8e9;
+  padding: 15px;
+  border-radius: 8px;
+  margin-top: 10px;
+  border-left: 5px solid #8bc34a;
+}
+
+/* Specific Booking Details Styling */
+.booking-details {
+  margin-top: 10px;
+}
+
+.booking-details span {
+  font-weight: 600;
+  color: #007bbf;
+}
+
+.booking-details p {
+  margin-top: 5px;
+  font-size: 1em;
+  color: #333;
+}
+
+.booking-details .price {
+  font-size: 1.2em;
+  font-weight: bold;
+  color: #007bbf;
+}
+
+/* No Bookings Message */
+#resultDiv.no-bookings {
+  text-align: center;
+  font-size: 1.2em;
+  color: #666;
+  padding: 20px;
+}
+
+/* Responsive Design for Smaller Screens */
+@media (max-width: 768px) {
+  .booking {
+    padding: 15px;
+  }
+
+  .booking h4 {
+    font-size: 1.3em;
+  }
+
+  .booking p {
+    font-size: 1em;
+  }
+}
+/* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Roboto", sans-serif;
+  background-color: #f5f5f5;
+  color: #333;
+  padding: 20px;
+}
+
+/* Passenger Container */
+#passengerList {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.passenger {
+  background-color: #fff;
+  padding: 20px;
+  margin-bottom: 15px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Hover effect */
+.passenger:hover {
+  transform: translateY(-5px); /* Slightly lift the card */
+  box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.15); /* More pronounced shadow on hover */
+}
+
+/* Title styling */
+.passenger h4 {
+  font-size: 1.5em;
+  color: #007bbf;
+  margin-bottom: 10px;
+  transition: color 0.3s ease;
+}
+
+/* Hover effect on title */
+.passenger:hover h4 {
+  color: #004e75; /* Darker blue on hover */
+}
+
+/* Details styling */
+.passenger p {
+  font-size: 1.1em;
+  color: #333;
+  line-height: 1.6;
+}
+
+/* Additional transition on paragraph */
+.passenger p {
+  transition: color 0.3s ease;
+}
+
+/* Hover effect on paragraph text */
+.passenger:hover p {
+  color: #555; /* Darker gray text on hover */
+}
+/* General Button Styling */
+button {
+  background-color: #007bbf; /* Primary Blue */
+  color: white;
+  padding: 12px 25px;
+  border: none;
+  border-radius: 8px;
+  font-size: 1em;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease,
+    box-shadow 0.3s ease;
+  display: inline-block;
+}
+
+/* Hover effect for buttons */
+button:hover {
+  background-color: #004e75; /* Darker Blue on hover */
+  transform: translateY(-3px); /* Lift the button slightly */
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2); /* Subtle shadow on hover */
+}
+
+/* Active (pressed) state */
+button:active {
+  transform: translateY(0); /* Button stays at normal position when pressed */
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1); /* Slight shadow to simulate button press */
+}
+
+/* Disabled state */
+button:disabled {
+  background-color: #dcdcdc; /* Greyed-out color */
+  color: #aaa; /* Lighter text color */
+  cursor: not-allowed; /* Change cursor to indicate it's disabled */
+  box-shadow: none; /* Remove shadow when disabled */
+}
+
+/* Large buttons */
+button.large {
+  padding: 15px 35px;
+  font-size: 1.2em;
+  border-radius: 12px;
+}
+
+/* Small buttons */
+button.small {
+  padding: 8px 18px;
+  font-size: 0.9em;
+  border-radius: 6px;
+}
+
+/* Success button (green) */
+button.success {
+  background-color: #28a745;
+}
+
+button.success:hover {
+  background-color: #218838; /* Darker green on hover */
+}
+
+/* Warning button (yellow) */
+button.warning {
+  background-color: #ffc107;
+}
+
+button.warning:hover {
+  background-color: #e0a800; /* Darker yellow on hover */
+}
+
+/* Danger button (red) */
+button.danger {
+  background-color: #dc3545;
+}
+
+button.danger:hover {
+  background-color: #c82333; /* Darker red on hover */
+}
+
+/* Info button (light blue) */
+button.info {
+  background-color: #17a2b8;
+}
+
+button.info:hover {
+  background-color: #138496; /* Darker cyan on hover */
+}
+/* General styles for account information */
+.account-info {
+  background-color: #fff; /* White background */
+  padding: 20px; /* Padding inside the div */
+  border-radius: 10px; /* Rounded corners */
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  max-width: 500px; /* Limit width */
+  margin: 20px auto; /* Center the div horizontally */
+}
+
+/* Heading styling */
+.account-info h3 {
+  font-size: 1.6em;
+  color: #333; /* Dark gray text */
+  margin-bottom: 15px; /* Space below the heading */
+  font-weight: 600; /* Slightly bolder text */
+  text-align: center; /* Center align the heading */
+}
+
+/* Paragraph styling */
+.account-info p {
+  font-size: 1.1em;
+  color: #555; /* Lighter gray text for paragraph */
+  margin-bottom: 10px; /* Space between paragraphs */
+}
+
+/* Strong styling (labels) */
+.account-info p strong {
+  color: #007bbf; /* Blue for labels */
+  font-weight: bold;
+}
+
+/* Span element styling */
+.account-info span {
+  color: #333; /* Dark text color for the values */
+  font-weight: normal;
+}
+/* Styling for Upload Flights XML Form */
+#uploadForm {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 20px; /* Space between forms */
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 500px; /* Make the form not too wide */
+  margin-left: auto; /* Center the form */
+  margin-right: auto; /* Center the form */
+}
+
+/* Label Styling for Upload Flights XML Form */
+#uploadForm label {
+  font-size: 1.1em;
+  color: #333;
+  display: block;
+  margin-bottom: 10px;
+  font-weight: bold; /* Make labels stand out */
+}
+
+/* File Input Styling for Upload Flights XML Form */
+#uploadForm input[type="file"] {
+  display: block;
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0;
+  border: 2px solid #007bbf;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+  font-size: 1em;
+}
+
+/* Button Styling for Upload Flights XML Form */
+#uploadForm button {
+  background-color: #007bbf;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  font-size: 1.1em;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  width: 100%; /* Full width button */
+}
+
+/* Hover Effects for Buttons in Upload Flights XML Form */
+#uploadForm button:hover {
+  background-color: #004e75;
+  transform: scale(1.05);
+}
+
+/* Response Message Styling for Upload Flights XML */
+#responseMessage {
+  display: none; /* Hidden by default */
+  margin-top: 20px;
+  padding: 10px;
+  font-size: 1.1em;
+  text-align: center;
+  border-radius: 5px;
+}
+
+/* Success Message for Upload Flights XML */
+#responseMessage.success {
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+/* Error Message for Upload Flights XML */
+#responseMessage.error {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+
+/* Styling for Upload Hotels JSON Form */
+#uploadHotelForm {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 20px; /* Space between forms */
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 500px; /* Make the form not too wide */
+  margin-left: auto; /* Center the form */
+  margin-right: auto; /* Center the form */
+}
+
+/* Label Styling for Upload Hotels JSON Form */
+#uploadHotelForm label {
+  font-size: 1.1em;
+  color: #333;
+  display: block;
+  margin-bottom: 10px;
+  font-weight: bold; /* Make labels stand out */
+}
+
+/* File Input Styling for Upload Hotels JSON Form */
+#uploadHotelForm input[type="file"] {
+  display: block;
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0;
+  border: 2px solid #007bbf;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+  font-size: 1em;
+}
+
+/* Button Styling for Upload Hotels JSON Form */
+#uploadHotelForm button {
+  background-color: #007bbf;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  font-size: 1.1em;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  width: 100%; /* Full width button */
+}
+
+/* Hover Effects for Buttons in Upload Hotels JSON Form */
+#uploadHotelForm button:hover {
+  background-color: #004e75;
+  transform: scale(1.05);
+}
+
+/* Response Message Styling for Upload Hotels JSON */
+#responseMessageHotel {
+  display: none; /* Hidden by default */
+  margin-top: 20px;
+  padding: 10px;
+  font-size: 1.1em;
+  text-align: center;
+  border-radius: 5px;
+}
+
+/* Success Message for Upload Hotels JSON */
+#responseMessageHotel.success {
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+/* Error Message for Upload Hotels JSON */
+#responseMessageHotel.error {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+/* Styling for the individual hotel ID display */
+.hotelId {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 15px; /* Space between each hotel ID block */
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Hover effects for the hotel ID blocks */
+.hotelId:hover {
+  transform: scale(1.05);
+  box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Title (Hotel ID) styling */
+.hotelId p {
+  font-size: 1.3em;
+  color: #007bbf; /* Blue to match the theme */
+  font-weight: bold;
+  margin: 0; /* Remove margin */
+  text-align: center; /* Center align the text */
+}
+
+/* Message when no hotels are found */
+#resultDiv.no-results {
+  color: #f44336; /* Red to indicate no results */
+  font-size: 1.2em;
+  font-weight: bold;
+  text-align: center;
+  padding: 20px;
+}
+/* Styling for the individual flight ID display */
+.flightID {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 15px; /* Space between each flight ID block */
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Hover effects for the flight ID blocks */
+.flightID:hover {
+  transform: scale(1.05);
+  box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Title (Flight ID) styling */
+.flightID p {
+  font-size: 1.3em;
+  color: #007bbf; /* Blue to match the theme */
+  font-weight: bold;
+  margin: 0; /* Remove margin */
+  text-align: center; /* Center align the text */
+}
+
+/* Message when no flights are found */
+#resultDiv.no-results {
+  color: #f44336; /* Red to indicate no results */
+  font-size: 1.2em;
+  font-weight: bold;
+  text-align: center;
+  padding: 20px;
+}
+#flightCountNum {
+  font-size: 1.2em;
+  font-weight: bold;
+  color: #007bff; /* Blue color */
+  padding: 10px;
+  margin: 10px 0;
+  background-color: #f0f8ff;
+  border-radius: 5px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}

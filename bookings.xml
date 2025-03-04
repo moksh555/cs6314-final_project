@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bookings>
+  <booking>
+    <hotelId>H001</hotelId>
+    <hotelName>Lakeside Retreat</hotelName>
+    <city>Dallas</city>
+    <checkIn>2024-11-17</checkIn>
+    <checkOut>2024-11-21</checkOut>
+    <adults>3</adults>
+    <children/>
+    <infants>0</infants>
+    <rooms>2</rooms>
+    <price>120</price>
+  </booking>
+  <booking>
+    <hotelId>H014</hotelId>
+    <hotelName>Canyon View Lodge</hotelName>
+    <city>Dallas</city>
+    <checkIn>2024-11-19</checkIn>
+    <checkOut>2024-11-21</checkOut>
+    <adults>2</adults>
+    <children/>
+    <infants>0</infants>
+    <rooms>1</rooms>
+    <price>155</price>
+  </booking>
+  <booking>
+    <hotelId>H001</hotelId>
+    <hotelName>Lakeside Retreat</hotelName>
+    <city>Dallas</city>
+    <checkIn>2024-11-17</checkIn>
+    <checkOut>2024-11-21</checkOut>
+    <adults>1</adults>
+    <children/>
+    <infants>0</infants>
+    <rooms>1</rooms>
+    <price>120</price>
+  </booking>
+  <booking>
+    <hotelId>H001</hotelId>
+    <hotelName>Lakeside Retreat</hotelName>
+    <city>Dallas</city>
+    <checkIn>2024-11-17</checkIn>
+    <checkOut>2024-11-22</checkOut>
+    <adults>1</adults>
+    <children/>
+    <infants>0</infants>
+    <rooms>1</rooms>
+    <price>120</price>
+  </booking>
+  <booking>
+    <hotelId>H001</hotelId>
+    <hotelName>Lakeside Retreat</hotelName>
+    <city>Dallas</city>
+    <checkIn>2024-11-17</checkIn>
+    <checkOut>2024-11-21</checkOut>
+    <adults>-1</adults>
+    <children/>
+    <infants>0</infants>
+    <rooms>0</rooms>
+    <price>120</price>
+  </booking>
+  <booking>
+    <hotelId>H001</hotelId>
+    <hotelName>Lakeside Retreat</hotelName>
+    <city>Dallas</city>
+    <checkIn>2024-11-17</checkIn>
+    <checkOut>2024-11-21</checkOut>
+    <adults>1</adults>
+    <children/>
+    <infants>0</infants>
+    <rooms>1</rooms>
+    <price>120</price>
+  </booking>
+  <booking>
+    <hotelId>H001</hotelId>
+    <hotelName>Lakeside Retreat</hotelName>
+    <city>Dallas</city>
+    <checkIn>2024-11-17</checkIn>
+    <checkOut>2024-11-21</checkOut>
+    <adults>-1</adults>
+    <children/>
+    <infants>0</infants>
+    <rooms>0</rooms>
+    <price>120</price>
+  </booking>
+  <booking>
+    <hotelId>H001</hotelId>
+    <hotelName>Lakeside Retreat</hotelName>
+    <city>Dallas</city>
+    <checkIn>2024-11-17</checkIn>
+    <checkOut>2024-11-22</checkOut>
+    <adults>1</adults>
+    <children/>
+    <infants>0</infants>
+    <rooms>1</rooms>
+    <price>120</price>
+  </booking>
+  <booking>
+    <hotelId>H001</hotelId>
+    <hotelName>Lakeside Retreat</hotelName>
+    <city>Dallas</city>
+    <checkIn>2024-11-17</checkIn>
+    <checkOut>2024-11-21</checkOut>
+    <adults>1</adults>
+    <children/>
+    <infants>0</infants>
+    <rooms>1</rooms>
+    <price>120</price>
+  </booking>
+</bookings>

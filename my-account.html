@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>My Account</title>
+    <link rel="stylesheet" href="mystyle.css" />
+    <link rel="stylesheet" href="my-account.css" />
+  </head>
+  <body>
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="stays.html">Stays</a></li>
+        <li><a href="flights.html">Flights</a></li>
+        <!-- <li><a href="cars.html">Cars</a></li>
+        <li><a href="cruises.html">Cruises</a></li> -->
+        <li><a href="contact-us.html">Contact Us</a></li>
+        <li><a href="cart.html">My Flight Cart</a></li>
+        <li><a href="cartHotel.html">My Cart Hotel </a></li>
+        <li><a href="flighBookingHistory.html">Flight Booking </a></li>
+        <li><a href="hotelBookingHistory.html">Hotel Booking</a></li>
+        <li><a href="my-account.html">My Account</a></li>
+      </ul>
+    </nav>
+    <header>
+      <h1>My Account</h1>
+    </header>
+    <main>
+      <!-- Admin Upload Section (Visible Only to Admin) -->
+      <section id="adminSection" style="display: none">
+        <h3>Admin Panel</h3>
+        <form id="uploadForm" enctype="multipart/form-data">
+          <label for="fileUpload">Upload Flights XML:</label>
+          <input
+            type="file"
+            id="fileUpload"
+            name="fileUpload"
+            accept=".xml"
+            required
+          />
+          <button type="submit">Upload</button>
+        </form>
+        <div id="responseMessage"></div>
+
+        <!-- Admin Section to Upload Hotel JSON -->
+
+        <form id="uploadHotelForm" enctype="multipart/form-data">
+          <label for="hotelFileUpload">Upload Hotels JSON:</label>
+          <input
+            type="file"
+            id="hotelFileUpload"
+            name="hotelFileUpload"
+            accept=".json"
+            required
+          />
+          <button type="submit">Upload Hotels</button>
+        </form>
+        <div id="responseMessageHotel"></div>
+
+        <section>
+          <h3>
+            Retrieve Booked Flights from Texas between SEP 2024 and OCT 2024
+          </h3>
+          <form id="retrieveAdminTexasFlights">
+            <button type="submit" onclick="adminTexasFlights(event)">
+              Retrieve
+            </button>
+          </form>
+          <div id="adminTexasFlights"></div>
+        </section>
+
+        <section>
+          <h3>Retrieve Booked Hotels in Texas between SEP 2024 and OCT 2024</h3>
+          <form id="retrieveAdminTexasHotels">
+            <button type="submit" onclick="adminTexasHotels(event)">
+              Retrieve
+            </button>
+          </form>
+          <div id="adminTexasHotels"></div>
+        </section>
+
+        <section>
+          <h3>Retrieve Most Expensive Booked Hotels</h3>
+          <form id="retrieveMostExpensiveHotel">
+            <button type="submit" onclick="mostExpensiveHotel(event)">
+              Retrieve
+            </button>
+          </form>
+          <div id="mostExpensiveHotel"></div>
+        </section>
+
+        <section>
+          <h3>Retrieve Flight ID with Infant on board</h3>
+          <form id="flightWithInfant">
+            <button type="submit" onclick="flightWithInfant(event)">
+              Retrieve
+            </button>
+          </form>
+          <div id="flightWithInfant"></div>
+        </section>
+
+        <section>
+          <h3>Retrieve Flight ID with Infant And 2 children on board</h3>
+          <form id="flightWithInfant2child">
+            <button type="submit" onclick="flightWithInfant2child(event)">
+              Retrieve
+            </button>
+          </form>
+          <div id="flightWithInfant2child"></div>
+        </section>
+
+        <section>
+          <h3>Retrieve Most Expensive Book Flight</h3>
+          <form id="retrieveMostExpensiveFlight">
+            <button type="submit" onclick="retrieveMostExpensiveFlight(event)">
+              Retrieve
+            </button>
+          </form>
+          <div id="retrieveMostExpensiveFlight"></div>
+        </section>
+
+        <section>
+          <h3>Retrieve Flight from Texas with no Infant</h3>
+          <form id="flightWithNoInfant">
+            <button type="submit" onclick="flightWithNoInfant(event)">
+              Retrieve
+            </button>
+          </form>
+          <div id="flightWithNoInfant"></div>
+        </section>
+
+        <section>
+          <h3>
+            Retrieve Number Of Booked flights Land in California Between SEP
+            2024 AND OCT 2024
+          </h3>
+          <form id="flightCount">
+            <button type="submit" onclick="flightCountNum(event)">
+              Retrieve
+            </button>
+          </form>
+          <div id="flightCountNum"></div>
+        </section>
+      </section>
+
+      <!-- General Account Information -->
+      <section>
+        <div class="account-info">
+          <h3>Your Account Information</h3>
+          <p><strong>First Name:</strong> <span id="firstName"></span></p>
+          <p><strong>Last Name:</strong> <span id="lastName"></span></p>
+          <p><strong>Phone:</strong> <span id="phone"></span></p>
+        </div>
+
+        <section>
+          <h3>Retrieve Booked Flights</h3>
+          <form id="retrieveFlightInfoForm">
+            <label for="flightBookingId">Flight Booking ID:</label>
+            <input type="text" id="flightBookingId" required />
+            <button type="submit" onclick="flightInfo(event)">
+              Retrieve Flight Info
+            </button>
+          </form>
+          <div id="flightInfoResult"></div>
+        </section>
+
+        <!-- Retrieve Booked Hotels -->
+        <section>
+          <h3>Retrieve Booked Hotels</h3>
+          <form id="retrieveHotelInfoForm">
+            <label for="hotelBookingId">Hotel Booking ID:</label>
+            <input type="text" id="hotelBookingId" required />
+            <button type="submit" onclick="hotelInfo(event)">
+              Retrieve Hotel Info
+            </button>
+          </form>
+          <div id="hotelInfoResult"></div>
+        </section>
+
+        <!-- Retrieve All Passengers in a Flight -->
+        <section>
+          <h3>Retrieve Passengers in a Flight</h3>
+          <form id="retrievePassengersForm">
+            <label for="flightBookingIdForPassengers">Flight Booking ID:</label>
+            <input type="text" id="flightBookingIdForPassengers" required />
+            <button type="submit" onclick="passengerFlight(event)">
+              Retrieve Passengers
+            </button>
+          </form>
+          <div id="passengerInfoResult"></div>
+        </section>
+
+        <!-- Retrieve All Booked Flights and Hotels for SEP 2024 -->
+        <section>
+          <h3>Retrieve Booked Flights for SEP 2024</h3>
+          <form id="retrieveSeptemberBookingsForm">
+            <button type="submit" onclick="flightsForSep(event)">
+              Retrieve Flight SEP 2024 Bookings
+            </button>
+          </form>
+          <div id="septemberFlightBookingsResult"></div>
+        </section>
+
+        <section>
+          <h3>Retrieve Booked Hotels for SEP 2024</h3>
+          <form id="retrieveSeptemberHotelBookingsForm">
+            <button type="submit" onclick="HotelsForSep(event)">
+              Retrieve Hotel SEP 2024 Bookings
+            </button>
+          </form>
+          <div id="septemberHotelBookingsResult"></div>
+        </section>
+
+        <!-- Retrieve Booked Flights for a Specific Person -->
+        <section>
+          <h3>Retrieve Booked Flights for a Specific Person</h3>
+          <form id="retrieveFlightsBySSNForm">
+            <label for="SSN">SSN:</label>
+            <input type="text" id="SSN" required />
+            <button type="submit" onclick="flightsForSsn(event)">
+              Retrieve Flights
+            </button>
+          </form>
+          <div id="flightsBySSNResult"></div>
+        </section>
+      </section>
+    </main>
+    <script>
+      // Fetch user data on page load
+      document.addEventListener("DOMContentLoaded", async () => {
+        const response = await fetch("server.php", {
+          method: "POST",
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body: new URLSearchParams({ action: "getUserData" }),
+        });
+
+        const result = await response.json();
+        if (result.success) {
+          document.getElementById("firstName").textContent = result.firstName;
+          document.getElementById("lastName").textContent = result.lastName;
+          document.getElementById("phone").textContent = result.phone;
+
+          // Show admin section if the user is an admin
+          if (result.isAdmin) {
+            document.getElementById("adminSection").style.display = "block";
+          }
+        } else {
+          alert("Failed to load user data. Please log in again.");
+          window.location.href = "login.html"; // Redirect to login page
+        }
+      });
+
+      async function flightCountNum(event) {
+        event.preventDefault();
+        const response = await fetch("server.php", {
+          method: "POST",
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body: new URLSearchParams({
+            action: "flightCountNum",
+          }),
+        });
+
+        const result = await response.json();
+        if (result.success) {
+          document.getElementById(
+            "flightCountNum"
+          ).textContent = `Number Counter: ${result.bookings[0].data.num_booked_flights}`;
+        } else {
+          document.getElementById("flightCountNum").textContent =
+            result.message || "No hotels found.";
+        }
+      }
+
+      async function mostExpensiveHotel(event) {
+        event.preventDefault();
+        const response = await fetch("server.php", {
+          method: "POST",
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body: new URLSearchParams({
+            action: "mostExpensiveHotel",
+          }),
+        });
+
+        const result = await response.json();
+        if (result.success) {
+          displayHotelBookings(result.bookings, "mostExpensiveHotel");
+        } else {
+          document.getElementById("mostExpensiveHotel").textContent =
+            result.message || "No hotels found.";
+        }
+      }
+
+      async function retrieveMostExpensiveFlight(event) {
+        event.preventDefault();
+        const response = await fetch("server.php", {
+          method: "POST",
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body: new URLSearchParams({
+            action: "retrieveMostExpensiveFlight",
+          }),
+        });
+
+        const result = await response.json();
+        if (result.success) {
+          displayFlightBookings(result.bookings, "retrieveMostExpensiveFlight");
+        } else {
+          document.getElementById("retrieveMostExpensiveFlight").textContent =
+            result.message || "No flights found.";
+        }
+      }
+
+      async function adminTexasHotels(event) {
+        event.preventDefault();
+        const response = await fetch("server.php", {
+          method: "POST",
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body: new URLSearchParams({
+            action: "adminTexasHotels",
+          }),
+        });
+
+        const result = await response.json();
+        if (result.success) {
+          displayHotelsId(result.bookings, "adminTexasHotels");
+        } else {
+          document.getElementById("adminTexasHotels").textContent =
+            result.message || "No hotels found.";
+        }
+      }
+
+      async function adminTexasFlights(event) {
+        event.preventDefault();
+        const response = await fetch("server.php", {
+          method: "POST",
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body: new URLSearchParams({
+            action: "adminTexasFlight",
+          }),
+        });
+
+        const result = await response.json();
+        if (result.success) {
+          displayFlightId(result.bookings, "adminTexasFlights");
+        } else {
+          document.getElementById("adminTexasFlights").textContent =
+            result.message || "No flights found.";
+        }
+      }
+
+      async function flightsForSep(event) {
+        event.preventDefault();
+        const response = await fetch("server.php", {
+          method: "POST",
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body: new URLSearchParams({
+            action: "getSeptemberFlightBookings",
+          }),
+        });
+
+        const result = await response.json();
+        if (result.success) {
+          displayFlightBookings(
+            result.bookings,
+            "septemberFlightBookingsResult"
+          );
+        } else {
+          document.getElementById("septemberFlightBookingsResult").textContent =
+            result.message || "No bookings found.";
+        }
+      }
+
+      async function HotelsForSep(event) {
+        event.preventDefault();
+        const response = await fetch("server.php", {
+          method: "POST",
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body: new URLSearchParams({
+            action: "getSeptemberHotelBookings",
+          }),
+        });
+
+        const result = await response.json();
+        if (result.success) {
+          displayHotelBookings(result.bookings, "septemberHotelBookingsResult");
+        } else {
+          document.getElementById("septemberHotelBookingsResult").textContent =
+            result.message || "No bookings found.";
+        }
+      }
+
+      async function flightInfo(event) {
+        event.preventDefault();
+        const flightBookingId =
+          document.getElementById("flightBookingId").value;
+
+        const response = await fetch("server.php", {
+          method: "POST",
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body: new URLSearchParams({
+            action: "getFlightInfo",
+            flightBookingId,
+          }),
+        });
+
+        const result = await response.json();
+        if (result.success) {
+          displayFlightBookings(result.bookings, "flightInfoResult");
+        } else {
+          document.getElementById("flightInfoResult").textContent =
+            result.message || "No bookings found.";
+        }
+      }
+
+      async function hotelInfo(event) {
+        event.preventDefault();
+        const hotelBookingId = document.getElementById("hotelBookingId").value;
+
+        const response = await fetch("server.php", {
+          method: "POST",
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body: new URLSearchParams({
+            action: "getHotelInfo",
+            hotelBookingId,
+          }),
+        });
+
+        const result = await response.json();
+        if (result.success) {
+          displayHotelBookings(result.bookings, "hotelInfoResult");
+        } else {
+          document.getElementById("hotelInfoResult").textContent =
+            result.message || "No bookings found.";
+        }
+      }
+
+      async function passengerFlight(event) {
+        event.preventDefault();
+        const flightBookingId = document.getElementById(
+          "flightBookingIdForPassengers"
+        ).value;
+
+        const response = await fetch("server.php", {
+          method: "POST",
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body: new URLSearchParams({
+            action: "getPassengers",
+            flightBookingId,
+          }),
+        });
+
+        const result = await response.json();
+        if (result.success) {
+          displayPassenger(result.passengers, "passengerInfoResult");
+        } else {
+          document.getElementById("passengerInfoResult").textContent =
+            result.message || "No bookings found.";
+        }
+      }
+
+      async function flightWithInfant(event) {
+        event.preventDefault();
+        const response = await fetch("server.php", {
+          method: "POST",
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body: new URLSearchParams({
+            action: "flightWithInfant",
+          }),
+        });
+
+        const result = await response.json();
+        if (result.success) {
+          displayFlightId(result.bookings, "flightWithInfant");
+        } else {
+          document.getElementById("flightWithInfant").textContent =
+            result.message || "No flights with Infant on board";
+        }
+      }
+
+      async function flightWithInfant2child(event) {
+        event.preventDefault();
+        const response = await fetch("server.php", {
+          method: "POST",
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body: new URLSearchParams({
+            action: "flightWithInfant2child",
+          }),
+        });
+
+        const result = await response.json();
+        if (result.success) {
+          displayFlightId(result.bookings, "flightWithInfant2child");
+        } else {
+          document.getElementById("flightWithInfant2child").textContent =
+            result.message || "No flights with Infant And 2 children on board";
+        }
+      }
+
+      async function flightWithNoInfant(event) {
+        event.preventDefault();
+        const response = await fetch("server.php", {
+          method: "POST",
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body: new URLSearchParams({
+            action: "flightWithNoInfant",
+          }),
+        });
+
+        const result = await response.json();
+        if (result.success) {
+          displayFlightsOnly(result.bookings, "flightWithNoInfant");
+        } else {
+          document.getElementById("flightWithNoInfant").textContent =
+            result.message || "No flights with no Infant";
+        }
+      }
+
+      // Handle XML file upload
+      document
+        .getElementById("uploadForm")
+        .addEventListener("submit", async (e) => {
+          e.preventDefault();
+          const formData = new FormData();
+          formData.append("action", "uploadFlights");
+          formData.append(
+            "fileUpload",
+            document.getElementById("fileUpload").files[0]
+          );
+
+          const response = await fetch("server.php", {
+            method: "POST",
+            body: formData,
+          });
+
+          const result = await response.json();
+          document.getElementById("responseMessage").textContent =
+            result.message || "Upload completed.";
+        });
+
+      document
+        .getElementById("uploadHotelForm")
+        .addEventListener("submit", async (e) => {
+          e.preventDefault();
+
+          const formData = new FormData();
+          formData.append("action", "uploadHotels");
+          formData.append(
+            "hotelFile",
+            document.getElementById("hotelFileUpload").files[0]
+          );
+
+          const response = await fetch("server.php", {
+            method: "POST",
+            body: formData,
+          });
+
+          const result = await response.json();
+          document.getElementById("responseMessageHotel").textContent =
+            result.message || "Upload completed.";
+        });
+
+      async function flightsForSsn(event) {
+        event.preventDefault();
+        const SSN = document.getElementById("SSN").value;
+
+        const response = await fetch("server.php", {
+          method: "POST",
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body: new URLSearchParams({
+            action: "getFlightsBySSN",
+            SSN,
+          }),
+        });
+
+        const result = await response.json();
+        if (result.success) {
+          displayFlightBookings(result.bookings, "flightsBySSNResult");
+        } else {
+          document.getElementById("passengerInfoResult").textContent =
+            result.message || "No bookings found.";
+        }
+      }
+
+      function displayHotelsId(hotel_ids, ider) {
+        const resultDiv = document.getElementById(ider);
+        resultDiv.innerHTML = "";
+        if (hotel_ids.length == 0) {
+          result.div.textContent = "No hotel in Texas in Sept and OCT";
+          return;
+        }
+
+        hotel_ids.forEach((hotel) => {
+          const hotelIdDiv = document.createElement("div");
+          hotelIdDiv.classList.add("hotelId");
+          const title = document.createElement("p");
+          title.textContent = `Hotel ID: ${hotel.data.hotel_id}`;
+          hotelIdDiv.appendChild(title);
+          resultDiv.appendChild(hotelIdDiv);
+        });
+      }
+
+      function displayFlightId(flight_ids, ider) {
+        const resultDiv = document.getElementById(ider);
+        resultDiv.innerHTML = "";
+        if (flight_ids.length == 0) {
+          result.div.textContent = "No flights from Texas in Sept and OCT";
+          return;
+        }
+
+        flight_ids.forEach((flight) => {
+          const flightIdDiv = document.createElement("div");
+          flightIdDiv.classList.add("flightID");
+          const title = document.createElement("p");
+          title.textContent = `Flight ID: ${flight.data.flight_id}`;
+          flightIdDiv.appendChild(title);
+          resultDiv.appendChild(flightIdDiv);
+        });
+      }
+
+      function displayPassenger(passengers, ider) {
+        const resultDiv = document.getElementById(ider);
+        resultDiv.innerHTML = "";
+        if (passengers.length === 0) {
+          resultDiv.textContent = "No Passengers found.";
+          return;
+        }
+
+        passengers.forEach((passenger) => {
+          const passengerDiv = document.createElement("div");
+          passengerDiv.classList.add("passenger");
+          const title = document.createElement("h4");
+          if (passenger.type === "passengers") {
+            title.textContent = `Flight Booking - ID: ${passenger.data.flight_booking_id}`;
+          }
+          passengerDiv.appendChild(title);
+
+          const details = document.createElement("p");
+          details.textContent = `Ssn: ${passenger.data.ssn}, First Name: ${passenger.data.first_name}, Last Name: ${passenger.data.last_name}, DOB: ${passenger.data.dob}, Category: ${passenger.data.category}, Ticket Price: ${passenger.data.price}`;
+          passengerDiv.appendChild(details);
+
+          // Append the booking to the result div
+          resultDiv.appendChild(passengerDiv);
+        });
+      }
+
+      function displayHotelBookings(bookings, ider) {
+        const resultDiv = document.getElementById(ider);
+        resultDiv.innerHTML = ""; // Clear previous results
+
+        if (bookings.length === 0) {
+          resultDiv.textContent = "No bookings found for September 2024.";
+          return;
+        }
+
+        bookings.forEach((booking) => {
+          const bookingDiv = document.createElement("div");
+          bookingDiv.classList.add("booking");
+
+          // Create booking title and details based on type (flight or hotel)
+          const title = document.createElement("h4");
+          if (booking.type === "hotel") {
+            title.textContent = `Hotel Booking - ID: ${booking.data.hotel_booking_id}- Hotel ID: ${booking.data.hotel_id}`;
+          }
+
+          bookingDiv.appendChild(title);
+
+          // Show specific booking details (flight or hotel)
+          const details = document.createElement("p");
+          details.textContent = `Hotel Name: ${booking.data.hotel_name}, Hotel City: ${booking.data.hotel_city}, CheckIn Date: ${booking.data.check_in}, CheckOut Date: ${booking.data.check_out}, Rooms Booked: ${booking.data.rooms}, Price/Room/Night: ${booking.data.price}, Total Price: ${booking.data.total_price}, Ssn: ${booking.data.ssn}, First Name: ${booking.data.first_name}, Last Name: ${booking.data.last_name}, DOB: ${booking.data.dob}, Category: ${booking.data.category}`;
+          bookingDiv.appendChild(details);
+
+          // Append the booking to the result div
+          resultDiv.appendChild(bookingDiv);
+        });
+      }
+
+      function displayFlightsOnly(bookings, ider) {
+        const resultDiv = document.getElementById(ider);
+        resultDiv.innerHTML = ""; // Clear previous results
+
+        if (bookings.length === 0) {
+          resultDiv.textContent = "No bookings found for September 2024.";
+          return;
+        }
+
+        bookings.forEach((booking) => {
+          const bookingDiv = document.createElement("div");
+          bookingDiv.classList.add("booking");
+
+          // Create booking title and details based on type (flight or hotel)
+          const title = document.createElement("h4");
+          if (booking.type === "flight") {
+            title.textContent = `Flight ID: ${booking.data.flight_id}`;
+          }
+
+          bookingDiv.appendChild(title);
+
+          // Show specific booking details (flight or hotel)
+          const details = document.createElement("p");
+          details.textContent = `Origin: ${booking.data.origin}, Destination: ${booking.data.destination},Departure Date: ${booking.data.departure_date}, Arrival-Date: ${booking.data.departure_date}, Departure Time: ${booking.data.departure_time}, Arrival Time: ${booking.data.arrival_time}, Ticket Price: ${booking.data.ticket_price}, Available Seats: ${booking.data.available_seats}`;
+          bookingDiv.appendChild(details);
+
+          // Append the booking to the result div
+          resultDiv.appendChild(bookingDiv);
+        });
+      }
+
+      function displayFlightBookings(bookings, ider) {
+        const resultDiv = document.getElementById(ider);
+        resultDiv.innerHTML = ""; // Clear previous results
+
+        if (bookings.length === 0) {
+          resultDiv.textContent = "No bookings found for September 2024.";
+          return;
+        }
+
+        bookings.forEach((booking) => {
+          const bookingDiv = document.createElement("div");
+          bookingDiv.classList.add("booking");
+
+          // Create booking title and details based on type (flight or hotel)
+          const title = document.createElement("h4");
+          if (booking.type === "flight") {
+            title.textContent = `Flight Booking - ID: ${booking.data.flight_booking_id} - Flight ID: ${booking.data.flight_id}`;
+          }
+
+          bookingDiv.appendChild(title);
+
+          // Show specific booking details (flight or hotel)
+          const details = document.createElement("p");
+          details.textContent = `Origin: ${booking.data.origin}, Destination: ${booking.data.destination},Departure Date: ${booking.data.departure_date}, Arrival-Date: ${booking.data.departure_date}, Departure Time: ${booking.data.departure_time}, Arrival Time: ${booking.data.arrival_time}, Ticket Price: ${booking.data.ticket_price}, Ssn: ${booking.data.ssn}, First Name: ${booking.data.first_name}, Last Name: ${booking.data.last_name}, DOB: ${booking.data.dob}, Passenger Category: ${booking.data.passenger_category}, Total Price: ${booking.data.booking_total_price}`;
+          bookingDiv.appendChild(details);
+
+          // Append the booking to the result div
+          resultDiv.appendChild(bookingDiv);
+        });
+      }
+    </script>
+  </body>
+</html>

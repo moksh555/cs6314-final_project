@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Contact Us - Travel Deals</title>
+    <link rel="stylesheet" href="mystyle.css" />
+    <link rel="stylesheet" href="flights.css" />
+    <link rel="stylesheet" href="contact-us.css" />
+  </head>
+  <body id="main-body">
+    <div id="general">
+      <p id="datetime"></p>
+      <p id="userGreeting">Welcome, Guest!</p>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="stays.html">Stays</a></li>
+        <li><a href="flights.html">Flights</a></li>
+        <!-- <li><a href="cars.html">Cars</a></li>
+        <li><a href="cruises.html">Cruises</a></li> -->
+        <li><a href="contact-us.html">Contact Us</a></li>
+        <li><a href="cart.html">My Flight Cart</a></li>
+        <li><a href="cartHotel.html">My Cart Hotel </a></li>
+        <li><a href="flighBookingHistory.html">Flight Booking </a></li>
+        <li><a href="hotelBookingHistory.html">Hotel Booking</a></li>
+        <li><a href="my-account.html">My Account</a></li>
+      </ul>
+    </nav>
+
+    <div class="controls">
+      <label for="fontSize">Font Size:</label>
+      <button onclick="changeSize('16px')">Normal</button>
+      <button onclick="changeSize('20px')">Large</button>
+      <button onclick="changeSize('24px')">Extra Large</button>
+
+      <label for="bgColor">Background Color:</label>
+      <button onclick="changeColor('#ffffff')">White</button>
+      <button onclick="changeColor('#cfcfcf')">Gray</button>
+      <button onclick="changeColor('#000000')">Black</button>
+    </div>
+
+    <div class="content-wrapper">
+      <aside class="side-bar">
+        <h3>Need Help?</h3>
+        <ul>
+          <li>📞 Call Us: 1-800-TRAVEL</li>
+          <li>✉️ Email: support@traveldeals.com</li>
+          <li>🕒 Support Hours: 9 AM - 6 PM (Mon-Fri)</li>
+          <li>
+            💡 Tip: Be sure to provide as much detail as possible in your
+            message for a faster response!
+          </li>
+        </ul>
+      </aside>
+
+      <main class="main-content">
+        <h2>Contact</h2>
+        <form id="contactForm">
+          <!-- <label for="firstName">First Name:</label>
+          <input type="text" id="firstName" name="firstName" /><br />
+
+          <label for="lastName">Last Name:</label>
+          <input type="text" id="lastName" name="lastName" /><br />
+
+          <label for="phone">Phone Number:</label>
+          <input type="text" id="phone" name="phone" /><br />
+
+          <label for="gender">Gender:</label>
+          <div class="gender-selection">
+            <label>
+              <input type="radio" name="gender" value="Male" /> Male
+            </label>
+            <label>
+              <input type="radio" name="gender" value="Female" /> Female
+            </label>
+          </div>
+          <br />
+
+          <label for="email">Email:</label>
+          <input type="text" id="email" name="email" /><br /> -->
+
+          <label for="comment">Comment:</label>
+          <textarea id="comment" name="comment"></textarea><br />
+
+          <button type="submit">Submit</button>
+        </form>
+
+        <p id="errorMessages" style="color: red"></p>
+      </main>
+    </div>
+    <footer>
+      <p id="footPara"></p>
+      <p>Moksh Vaghasia, MXV220071, (002)</p>
+      <p>Kyu Shim, KJS170230, (002)</p>
+      <p>Aditya Swaroop, AXS230571, (002)</p>
+    </footer>
+    <script>
+      const footerDate = document.getElementById("footPara");
+      const now = new Date();
+      const year = now.getFullYear();
+      footerDate.textContent = "@Copyright " + year.toString();
+      function changeSize(s) {
+        const allElement = document.getElementsByClassName("main-content");
+        for (let i = 0; i < allElement.length; i++) {
+          allElement[i].style.fontSize = s;
+        }
+      }
+
+      // function changeColor(color) {
+      //   document.getElementById("main-body").style.backgroundColor = color;
+      // }
+
+      // function validateForm(e) {
+      //   e.preventDefault();
+
+      //   var firstName = document.getElementById("firstName").value;
+      //   var lastName = document.getElementById("lastName").value;
+      //   var phone = document.getElementById("phone").value;
+      //   var gender = document.querySelector('input[name="gender"]:checked');
+      //   var email = document.getElementById("email").value;
+      //   var comment = document.getElementById("comment").value;
+      //   var errorMessages = [];
+
+      //   var nameRegex = /^[A-Z][a-zA-Z]*$/;
+      //   var phoneRegex = /^\(\d{3}\) \d{3}-\d{4}$/;
+      //   var emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+      //   if (!nameRegex.test(firstName)) {
+      //     errorMessages.push(
+      //       "First name should start with a capital letter and contain only alphabets."
+      //     );
+      //   }
+
+      //   if (!nameRegex.test(lastName)) {
+      //     errorMessages.push(
+      //       "Last name should start with a capital letter and contain only alphabets."
+      //     );
+      //   }
+      //   e;
+      //   if (firstName === lastName) {
+      //     errorMessages.push("First name and last name cannot be the same.");
+      //   }
+
+      //   if (!phoneRegex.test(phone)) {
+      //     errorMessages.push(
+      //       "Phone number must be formatted as (ddd) ddd-dddd."
+      //     );
+      //   }
+
+      //   if (!gender) {
+      //     errorMessages.push("Please select a gender.");
+      //   }
+
+      //   if (!emailRegex.test(email)) {
+      //     errorMessages.push("Please enter a valid email address.");
+      //   }
+
+      //   if (comment.length < 10) {
+      //     errorMessages.push("Comment must be at least 10 characters long.");
+      //   }
+
+      //   var errorMessagesElement = document.getElementById("errorMessages");
+      //   if (errorMessages.length > 0) {
+      //     errorMessagesElement.innerHTML = errorMessages.join("<br>");
+      //   } else {
+      //     errorMessagesElement.innerHTML = "";
+
+      //     // const data = {
+      //     //   firstName,
+      //     //   lastName,
+      //     //   phone,
+      //     //   gender: gender.value,
+      //     //   email,
+      //     //   comment,
+      //     // };
+      //     // console.log(data);
+      //     // fetch("http://localhost:3000/flight", {
+      //     //   method: "POST",
+      //     //   headers: { "Content-Type": "application/json" },
+      //     //   body: JSON.stringify({
+      //     //     originCity: "Houston",
+      //     //     destinationCity: "Los Angeles",
+      //     //     dateDeparture: "2024-09-05",
+      //     //     dateReturn: "2024-09-10",
+      //     //     passengers: 2,
+      //     //   }),
+      //     // })
+      //     //   .then((response) => response.text()) // Temporarily log raw response
+      //     //   .then((data) => console.log("Server response:", data))
+      //     //   .catch((error) => console.error("Fetch error:", error));
+      //     // document.getElementById("contactForm").reset();
+      //   }
+      // }
+
+      document
+        .getElementById("contactForm")
+        .addEventListener("submit", async (e) => {
+          e.preventDefault();
+
+          const comment = document.getElementById("comment").value;
+          const errorMessagesElement = document.getElementById("errorMessages");
+
+          // Client-side validation
+          if (comment.length < 10) {
+            errorMessagesElement.textContent =
+              "Comment must be at least 10 characters long.";
+            return;
+          }
+
+          // Clear error messages
+          errorMessagesElement.textContent = "";
+
+          const formData = new URLSearchParams();
+          formData.append("action", "submitComment");
+          formData.append("comment", comment);
+
+          try {
+            const response = await fetch("server.php", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/x-www-form-urlencoded", // Form-encoded data
+              },
+              body: formData,
+            });
+
+            const result = await response.json();
+            if (result.success) {
+              alert(result.message);
+              document.getElementById("contactForm").reset();
+            } else {
+              errorMessagesElement.textContent = result.errors
+                ? result.errors.join(", ")
+                : result.message;
+            }
+          } catch (error) {
+            errorMessagesElement.textContent =
+              "An error occurred while submitting your comment.";
+          }
+        });
+    </script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="js/userData.js"></script>
+  </body>
+</html>

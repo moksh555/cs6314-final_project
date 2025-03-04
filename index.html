@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Travel Deals - Home</title>
+    <link rel="stylesheet" href="mystyle.css" />
+  </head>
+  <body id="main-body">
+    <header>
+      <h1>Welcome to Travel Deals</h1>
+    </header>
+    <div id="general">
+      <p id="datetime"></p>
+      <p id="userGreeting">Welcome, Guest!</p>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="stays.html">Stays</a></li>
+        <li><a href="flights.html">Flights</a></li>
+        <!-- <li><a href="cars.html">Cars</a></li>
+        <li><a href="cruises.html">Cruises</a></li> -->
+        <li><a href="contact-us.html">Contact Us</a></li>
+        <li><a href="cart.html">My Flight Cart</a></li>
+        <li><a href="cartHotel.html">My Cart Hotel </a></li>
+        <li><a href="flighBookingHistory.html">Flight Booking </a></li>
+        <li><a href="hotelBookingHistory.html">Hotel Booking</a></li>
+        <li><a href="my-account.html">My Account</a></li>
+      </ul>
+    </nav>
+
+    <div class="controls">
+      <label for="fontSize">Font Size:</label>
+      <button onclick="changeSize('16px')">Normal</button>
+      <button onclick="changeSize('20px')">Large</button>
+      <button onclick="changeSize('24px')">Extra Large</button>
+
+      <label for="bgColor">Background Color:</label>
+      <button onclick="changeColor('#ffffff')">White</button>
+      <button onclick="changeColor('#cfcfcf')">Gray</button>
+      <button onclick="changeColor('#000000')">Black</button>
+    </div>
+
+    <div class="content-wrapper">
+      <aside class="side-bar">
+        <p>
+          Travel Tips & Offers 🌍 Top Destinations for 2024 Looking for some
+          inspiration for your next trip? Check out our list of must-visit
+          destinations in 2024: Bali, Indonesia – Discover serene beaches,
+          vibrant culture, and stunning landscapes. Kyoto, Japan – Immerse
+          yourself in traditional Japanese culture and breathtaking temples.
+          Santorini, Greece – A dream destination with white-washed buildings
+          and magical sunsets. Amalfi Coast, Italy – Explore picturesque
+          coastlines, historic villages, and delicious Italian cuisine.
+          Reykjavik, Iceland – Experience the magical Northern Lights and
+          awe-inspiring glaciers.
+        </p>
+      </aside>
+
+      <main class="main-content">
+        <h2>Travel Smarter, Travel Cheaper</h2>
+        <p>
+          With our easy-to-use platform, you can quickly compare prices, find
+          hidden gems, and lock in deals that cater to your travel needs. No
+          more endless searching or budget worries — we bring the best prices to
+          you, so you can focus on creating lasting memories.
+        </p>
+
+        <h2>Discover Unbeatable Travel Deals</h2>
+        <p>
+          Ready to explore the world without breaking the bank? Welcome to your
+          ultimate travel deals hub! Whether you're dreaming of a tropical
+          getaway, a city adventure, or a peaceful retreat, we’ve got the
+          perfect offers to make your journey affordable and unforgettable.
+        </p>
+
+        <h2>Why Choose Us?</h2>
+        <p>
+          We curate exclusive deals from top airlines, hotels, and vacation
+          packages to give you the best value for your next trip. Our deals
+          cover a variety of destinations, so you can easily find the perfect
+          spot that fits your budget and travel style. Our Offers Include:
+          Flight Deals: Save big on domestic and international flights with
+          discounted rates from leading airlines. Hotel Discounts: Enjoy luxury
+          for less with amazing hotel deals, from boutique stays to
+          all-inclusive resorts. Vacation Packages: Book flight + hotel combos
+          at unbeatable prices, giving you more time to focus on what matters —
+          your adventure! Last-Minute Escapes: Spontaneous traveler? Grab our
+          last-minute deals and be on your way to the destination of your dreams
+          in no time.
+        </p>
+      </main>
+    </div>
+
+    <footer>
+      <p id="footPara"></p>
+      <p>Moksh Vaghasia, MXV220071, (002)</p>
+      <p>Kyu Shim, KJS170230, (002)</p>
+      <p>Aditya Swaroop, AXS230571, (002)</p>
+    </footer>
+
+    <script>
+      function updateDateTime() {
+        const datetimeElement = document.getElementById("datetime");
+        const footerDate = document.getElementById("footPara");
+        const now = new Date();
+        const year = now.getFullYear();
+        datetimeElement.textContent = now.toLocaleString();
+        footerDate.textContent = "@Copyright " + year.toString();
+      }
+
+      setInterval(updateDateTime, 1000);
+      updateDateTime();
+
+      function changeSize(s) {
+        const allElement = document.getElementsByClassName("main-content");
+        for (let i = 0; i < allElement.length; i++) {
+          allElement[i].style.fontSize = s;
+        }
+      }
+
+      function changeColor(color) {
+        document.getElementById("main-body").style.backgroundColor = color;
+      }
+    </script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="js/userData.js"></script>
+  </body>
+</html>

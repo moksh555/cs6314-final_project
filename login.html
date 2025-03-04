@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login</title>
+    <link rel="stylesheet" href="mystyle.css" />
+    <link rel="stylesheet" href="login.css" />
+  </head>
+  <body>
+    <main>
+      <h1>Login</h1>
+      <form id="loginForm">
+        <label for="phone">Phone Number:</label>
+        <input
+          type="text"
+          id="phone"
+          name="phone"
+          placeholder="Phone Number"
+          required
+        />
+
+        <label for="password">Password:</label>
+        <input
+          type="password"
+          id="password"
+          name="password"
+          placeholder="Password"
+          required
+        />
+
+        <button type="submit">Login</button>
+      </form>
+      <div id="responseMessage"></div>
+
+      <!-- Register Button -->
+      <div style="margin-top: 20px; text-align: center">
+        <p>Don't have an account?</p>
+        <button
+          id="registerButton"
+          onclick="window.location.href='register.html'"
+          style="padding: 10px 20px; font-size: 16px; cursor: pointer"
+        >
+          Register Here
+        </button>
+      </div>
+    </main>
+    <footer>
+      <p>&copy; 2024 Travel Deals. All rights reserved.</p>
+    </footer>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="js/login.js"></script>
+  </body>
+</html>

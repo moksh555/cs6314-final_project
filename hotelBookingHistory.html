@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Bookings</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+      }
+      .booking-container {
+        margin: 20px 0;
+      }
+      .booking-item {
+        border: 1px solid #ddd;
+        margin-bottom: 15px;
+        padding: 10px;
+      }
+      .booking-item h3 {
+        margin: 0;
+        color: #007bff;
+      }
+      .booking-item p {
+        margin: 5px 0;
+      }
+      .guest-info {
+        margin-top: 15px;
+        background-color: #f8f9fa;
+        padding: 10px;
+        border-radius: 5px;
+      }
+    </style>
+    <link rel="stylesheet" href="mystyle.css" />
+  </head>
+  <body>
+    <div id="general">
+      <p id="datetime"></p>
+      <p id="userGreeting">Welcome, Guest!</p>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="stays.html">Stays</a></li>
+        <li><a href="flights.html">Flights</a></li>
+        <!-- <li><a href="cars.html">Cars</a></li>
+        <li><a href="cruises.html">Cruises</a></li> -->
+        <li><a href="contact-us.html">Contact Us</a></li>
+        <li><a href="cart.html">My Flight Cart</a></li>
+        <li><a href="cartHotel.html">My Cart Hotel </a></li>
+        <li><a href="flighBookingHistory.html">Flight Booking </a></li>
+        <li><a href="hotelBookingHistory.html">Hotel Booking</a></li>
+        <li><a href="my-account.html">My Account</a></li>
+      </ul>
+    </nav>
+    <h1>Your Bookings</h1>
+
+    <div id="booking-container" class="booking-container">
+      <!-- Bookings will be loaded here -->
+    </div>
+
+    <script>
+      // Assuming phone number is available in session (replace with actual method to get the session phone)
+      const phone = "1234567890"; // Example phone number
+
+      // Send POST request to fetch booking history
+      fetch("server.php", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          action: "fetchHotelBookingHistory",
+          phone: phone,
+        }), // Send phone and action
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          const bookingContainer = document.getElementById("booking-container");
+
+          if (data.success && data.bookings.length > 0) {
+            data.bookings.forEach((booking) => {
+              const bookingElement = document.createElement("div");
+              bookingElement.classList.add("booking-item");
+
+              bookingElement.innerHTML = `
+                        <h3>Hotel: ${booking.hotel_name}</h3>
+                        <p><strong>Booking ID:</strong> ${booking.hotel_booking_id}</p>
+                        <p><strong>Hotel ID:</strong> ${booking.hotel_id}</p>
+                        <p><strong>City:</strong> ${booking.hotel_city}</p>
+                        <p><strong>Check-In Date:</strong> ${booking.check_in}</p>
+                        <p><strong>Check-Out Date:</strong> ${booking.check_out}</p>
+                        <p><strong>Number of Rooms:</strong> ${booking.rooms}</p>
+                        <p><strong>Price per Night:</strong> $${booking.price}</p>
+                        <p><strong>Total Price:</strong> $${booking.total_price}</p>
+                    `;
+
+              // Add guest information
+              const guestInfo = document.createElement("div");
+              guestInfo.classList.add("guest-info");
+              guestInfo.innerHTML = `
+                        <h4>Guest Information:</h4>
+                        <p><strong>SSN:</strong> ${booking.ssn}</p>
+                        <p><strong>Name:</strong> ${booking.first_name} ${booking.last_name}</p>
+                        <p><strong>Date of Birth:</strong> ${booking.dob}</p>
+                        <p><strong>Category:</strong> ${booking.category}</p>
+                    `;
+              bookingElement.appendChild(guestInfo);
+
+              // Append the booking information to the container
+              bookingContainer.appendChild(bookingElement);
+            });
+          } else {
+            bookingContainer.innerHTML = "<p>No bookings found.</p>";
+          }
+        })
+        .catch((error) => {
+          console.error("Error fetching booking history:", error);
+        });
+    </script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="js/userData.js"></script>
+  </body>
+</html>

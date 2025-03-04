@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Stays - Travel Deals</title>
+    <link rel="stylesheet" href="mystyle.css" />
+    <link rel="stylesheet" href="stays.css" />
+  </head>
+  <body id="main-body">
+    <div id="general">
+      <p id="datetime"></p>
+      <p id="userGreeting">Welcome, Guest!</p>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="stays.html">Stays</a></li>
+        <li><a href="flights.html">Flights</a></li>
+        <!-- <li><a href="cars.html">Cars</a></li>
+        <li><a href="cruises.html">Cruises</a></li> -->
+        <li><a href="contact-us.html">Contact Us</a></li>
+        <li><a href="cart.html">My Flight Cart</a></li>
+        <li><a href="cartHotel.html">My Cart Hotel </a></li>
+        <li><a href="flighBookingHistory.html">Flight Booking </a></li>
+        <li><a href="hotelBookingHistory.html">Hotel Booking</a></li>
+        <li><a href="my-account.html">My Account</a></li>
+      </ul>
+    </nav>
+
+    <div class="controls">
+      <label for="fontSize">Font Size:</label>
+      <button onclick="changeSize('16px')">Normal</button>
+      <button onclick="changeSize('20px')">Large</button>
+      <button onclick="changeSize('24px')">Extra Large</button>
+
+      <label for="bgColor">Background Color:</label>
+      <button onclick="changeColor('#ffffff')">White</button>
+      <button onclick="changeColor('#cfcfcf')">Gray</button>
+      <button onclick="changeColor('#000000')">Black</button>
+    </div>
+
+    <div class="content-wrapper">
+      <aside class="side-bar">
+        <h3>Travel Tips & Offers</h3>
+        <p>
+          🌍 Discover the best destinations and exclusive deals for your next
+          stay! Don't miss out on these limited-time offers for luxury resorts
+          and budget-friendly accommodations.
+        </p>
+        <p>
+          ✈️ Get up to 30% off on flights when you book your stay with us. Enjoy
+          comfort and convenience while saving big on your next adventure.
+        </p>
+        <p>
+          🧳 Don't forget to check out our travel tips for packing light and
+          making the most of your trip.
+        </p>
+      </aside>
+
+      <main class="main-content">
+        <h2>Book Your Stay</h2>
+        <form id="staysForm">
+          <label for="city">City:</label>
+          <input type="text" id="city" name="city" required />
+          <p class="error" id="errorCity"></p>
+
+          <label for="checkIn">Check-In Date:</label>
+          <input type="date" id="checkIn" name="checkIn" required />
+          <p class="error" id="errorChekcInDate"></p>
+
+          <label for="checkOut">Check-Out Date:</label>
+          <input type="date" id="checkOut" name="checkOut" required />
+          <p class="error" id="errorChekcOutDate"></p>
+          <p class="error" id="errorCheckInOutDate"></p>
+
+          <label for="adults">Adults:</label>
+          <input type="number" id="adults" name="adults" required />
+          <p class="error" id="errorAdult"></p>
+
+          <label for="children">Children:</label>
+          <input type="number" id="children" name="children" value="0" /><br />
+
+          <label for="infants">Infants:</label>
+          <input type="number" id="infants" name="infants" value="0" /><br />
+
+          <button type="submit" onclick="validateForm(event)">Search</button>
+        </form>
+
+        <div id="results"></div>
+      </main>
+    </div>
+    <footer>
+      <p id="footPara"></p>
+      <p>Moksh Vaghasia, MXV220071, (002)</p>
+      <p>Kyu Shim, KJS170230, (002)</p>
+      <p>Aditya Swaroop, AXS230571, (002)</p>
+    </footer>
+    <script>
+      const footerDate = document.getElementById("footPara");
+      const now = new Date();
+      const year = now.getFullYear();
+      footerDate.textContent = "@Copyright " + year.toString();
+      function changeSize(s) {
+        const allElement = document.getElementsByClassName("main-content");
+        for (let i = 0; i < allElement.length; i++) {
+          allElement[i].style.fontSize = s;
+        }
+      }
+
+      function changeColor(color) {
+        document.getElementById("main-body").style.backgroundColor = color;
+      }
+
+      function addToCart(
+        hotelId,
+        hotelName,
+        hotelCity,
+        price,
+        checkIn,
+        checkOut,
+        adults,
+        children,
+        infants,
+        rooms,
+        totalPrice
+      ) {
+        // if (event) event.preventDefault();
+        // flightInfo = flightInfo.split(",");
+
+        const hotelDetails = {
+          action: "addToCartHotels",
+          hotelId: hotelId,
+          hotelName: hotelName,
+          hotelCity: hotelCity,
+          checkIn: checkIn,
+          checkOut: checkOut,
+          price: price,
+          adults: adults,
+          children: children,
+          infants: infants,
+          rooms: rooms,
+          totalPrice: totalPrice,
+        };
+
+        fetch("server.php", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(hotelDetails),
+        })
+          .then((response) => response.json())
+          .then((result) => {
+            if (result.success) {
+              console.log("Hotel added to cart successfully!");
+              // Optionally show success message to user
+            } else {
+              console.error("Error:", result.errors);
+              // Optionally show error message to user
+            }
+          })
+          .catch((error) => {
+            console.error("Request failed", error);
+          });
+
+        console.log(hotelDetails);
+      }
+
+      async function validateForm(event) {
+        event.preventDefault();
+        var error = 0;
+
+        var checkInDate = document.getElementById("checkIn").value.split("-");
+        var checkOutDate = document.getElementById("checkOut").value.split("-");
+        const minDate = new Date("09/01/2024").getTime();
+        const maxDate = new Date("12/01/2024").getTime();
+
+        var reorderCheckInDate =
+          checkInDate[1] + "/" + checkInDate[2] + "/" + checkInDate[0];
+        var reorderCheckOutDate =
+          checkOutDate[1] + "/" + checkOutDate[2] + "/" + checkOutDate[0];
+
+        var cID = new Date(reorderCheckInDate).getTime();
+        var cOD = new Date(reorderCheckOutDate).getTime();
+
+        if (cID < minDate || cID > maxDate) {
+          error++;
+          document.getElementById("errorChekcInDate").textContent =
+            "Check-In date must be between September 1st and December 1st";
+        } else {
+          document.getElementById("errorChekcInDate").textContent = "";
+        }
+
+        if (cOD < minDate || cOD > maxDate) {
+          error++;
+          document.getElementById("errorChekcOutDate").textContent =
+            "Check-Out date must be between September 1st and December 1st";
+        } else {
+          document.getElementById("errorChekcOutDate").textContent = "";
+        }
+
+        if (cOD < cID) {
+          error++;
+          document.getElementById("errorCheckInOutDate").textContent =
+            "Check-Out date must be after Check-In date";
+        } else {
+          document.getElementById("errorCheckInOutDate").textContent = "";
+        }
+
+        const allCities = [
+          "Los Angeles",
+          "San Francisco",
+          "San Diego",
+          "San Jose",
+          "Fresno",
+          "Sacramento",
+          "Long Beach",
+          "Oakland",
+          "Bakersfield",
+          "Anaheim",
+          "Santa Ana",
+          "Riverside",
+          "Stockton",
+          "Chula Vista",
+          "Irvine",
+          "Fremont",
+          "San Bernardino",
+          "Modesto",
+          "Fontana",
+          "Oxnard",
+          "Moreno Valley",
+          "Glendale",
+          "Huntington Beach",
+          "Santa Clarita",
+          "Garden Grove",
+          "Oceanside",
+          "Rancho Cucamonga",
+          "Ontario",
+          "Lancaster",
+          "Elk Grove",
+          "Houston",
+          "San Antonio",
+          "Dallas",
+          "Austin",
+          "Fort Worth",
+          "El Paso",
+          "Arlington",
+          "Corpus Christi",
+          "Plano",
+          "Laredo",
+          "Lubbock",
+          "Garland",
+          "Irving",
+          "Amarillo",
+          "Grand Prairie",
+          "McKinney",
+          "Frisco",
+          "Brownsville",
+          "Pasadena",
+          "Killeen",
+          "Mesquite",
+          "McAllen",
+          "Denton",
+          "Midland",
+          "Waco",
+          "Carrollton",
+          "Round Rock",
+          "Abilene",
+          "Pearland",
+          "Richardson",
+          "Odessa",
+          "Sugar Land",
+          "College Station",
+          "Lewisville",
+          "Tyler",
+          "League City",
+          "Wichita Falls",
+          "Allen",
+          "San Angelo",
+          "Edinburg",
+          "Conroe",
+          "Bryan",
+          "Mission",
+          "New Braunfels",
+          "Longview",
+          "Pharr",
+          "Flower Mound",
+          "Baytown",
+          "Cedar Park",
+          "Temple",
+          "Georgetown",
+          "Mansfield",
+          "Victoria",
+          "Harlingen",
+          "Rowlett",
+          "Pflugerville",
+          "Port Arthur",
+          "Euless",
+          "DeSoto",
+          "Grapevine",
+          "Galveston",
+          "Bedford",
+          "Cedar Hill",
+          "Texas City",
+          "Wylie",
+          "Haltom City",
+          "Keller",
+          "Coppell",
+          "Rockwall",
+          "Huntsville",
+          "Duncanville",
+          "Sherman",
+          "The Colony",
+          "Burleson",
+          "Hurst",
+          "Lancaster",
+          "Texarkana",
+          "Friendswood",
+          "Weslaco",
+          "Del Rio",
+          "Lufkin",
+          "San Juan",
+          "La Porte",
+          "Nacogdoches",
+          "Copperas Cove",
+          "Schertz",
+          "Socorro",
+          "Rosenberg",
+          "Waxahachie",
+          "Cleburne",
+          "Farmers Branch",
+          "Kyle",
+          "Big Spring",
+          "Lake Jackson",
+          "Harker Heights",
+          "Leander",
+          "Eagle Pass",
+        ];
+
+        var stayCity = document.getElementById("city").value;
+        if (!allCities.includes(stayCity)) {
+          error++;
+          document.getElementById("errorCity").textContent =
+            "The city must be in California or Texas";
+        } else {
+          document.getElementById("errorCity").textContent = "";
+        }
+
+        const adultCustomers = parseInt(
+          document.getElementById("adults").value
+        );
+        const childCustomers = parseInt(
+          document.getElementById("children").value
+        );
+        const infantCustomers = parseInt(
+          document.getElementById("infants").value
+        );
+
+        if (adultCustomers === 0) {
+          error++;
+          document.getElementById("errorAdult").textContent =
+            "There must be at least one adult";
+        } else {
+          document.getElementById("errorAdult").textContent = "";
+        }
+
+        const totalCustomers = adultCustomers + childCustomers;
+        const rooms = Math.ceil(totalCustomers / 2);
+
+        if (error === 0) {
+          const roomsNeeded = Math.ceil((adultCustomers + childCustomers) / 2);
+          console.log(roomsNeeded);
+
+          const data = {
+            action: "searchHotels",
+            stayCity,
+          };
+
+          // Fetch hotel results
+          fetch("server.php", {
+            method: "POST",
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body: new URLSearchParams(data),
+          })
+            .then((response) => response.json())
+            .then((result) => {
+              const resultContainer = document.getElementById("results");
+              resultContainer.innerHTML = "";
+              if (result && result.hotels) {
+                result.hotels.forEach((hotel) => {
+                  resultContainer.innerHTML += `
+                  <div>
+                    <h4>${hotel.hotel_id}</h4>
+                <p>Name: ${hotel.hotel_name}</p>
+                <p>City: ${hotel.hotel_city}</p>
+                <p>Price: $${hotel.price}</p>
+                <button onclick="addToCart('${hotel.hotel_id}', '${
+                    hotel.hotel_name
+                  }', '${hotel.hotel_city}', ${hotel.price}, '${
+                    document.getElementById("checkIn").value
+                  }', '${
+                    document.getElementById("checkOut").value
+                  }', ${adultCustomers}, ${childCustomers}, ${infantCustomers}, ${roomsNeeded},${
+                    roomsNeeded * hotel.price
+                  })">
+                  Add to Cart
+                </button>
+              </div>
+              `;
+                });
+              } else {
+                resultContainer.innerHTML = "<p>No results found.</p>";
+              }
+            })
+            .catch((error) => {
+              console.error("Error fetching hotels:", error);
+              alert("Error fetching hotel results. Please try again.");
+            });
+        }
+      }
+    </script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="js/userData.js"></script>
+  </body>
+</html>
+
+<!-- // function displayAvailableHotels(hotels, checkInDate, checkOutDate) { // const
+resultsContainer = document.querySelector(".results"); //
+resultsContainer.style.display = "block"; // resultsContainer.innerHTML = `
+<h3>Available Hotels</h3>
+`; // hotels.forEach((hotel) => { // resultsContainer.innerHTML += ` //
+<div class="hotel-item">
+  //
+  <p><strong>Hotel ID:</strong> ${hotel.hotelId}</p>
+  //
+  <p><strong>Hotel Name:</strong> ${hotel.hotelName}</p>
+  //
+  <p><strong>City:</strong> ${hotel.city}</p>
+  //
+  <p><strong>Check-In Date:</strong> ${checkInDate}</p>
+  //
+  <p><strong>Check-Out Date:</strong> ${checkOutDate}</p>
+  //
+  <p><strong>Available Rooms:</strong> ${hotel.availableRooms}</p>
+  //
+  <p><strong>Price per Night:</strong> $${hotel.pricePerNight}</p>
+  //
+  <button
+    id="addBtn"
+    onclick="addToCart('${hotel.hotelId}','${hotel.hotelName}', '${hotel.city}', ' ${hotel.availableRooms}', '${hotel.pricePerNight}','${checkInDate}', '${checkOutDate}', '${adultCustomers}', '${childCustomers}', '${infantCustomers}', '${rooms}')"
+  >
+    // Add to Cart //
+  </button>
+  //
+</div>
+// `; // }); // } // const city = document.getElementById("city").value; //
+const checkInDate = document.getElementById("checkIn").value; // const
+checkOutDate = document.getElementById("checkOut").value; // // Fetch available
+hotels // try { // const response = await fetch("hotels.json"); // const data =
+await response.json(); // console.log(data); // const availableHotels =
+data.hotels.filter((hotel) => { // // Filter by city and date // const
+[startDate, endDate] = hotel.availableDates; // const availableRooms =
+hotel.availableRooms; // const checkIn = new Date(checkInDate).getTime(); //
+const checkOut = new Date(checkOutDate).getTime(); // const availableStart = new
+Date(startDate).getTime(); // const availableEnd = new Date(endDate).getTime();
+// return ( // hotel.city.toLowerCase() === city.toLowerCase() && // checkIn >=
+availableStart && // checkOut <= availableEnd && // rooms <= availableRooms //
+); // }); // if (availableHotels.length > 0) { // displayAvailableHotels( //
+availableHotels, // checkInDate, // checkOutDate // ); // } else { // alert("No
+hotels available for the selected city and date."); // } // } catch (err) { //
+console.error("Error fetching hotels:", err); // } // } else { //
+document.querySelector(".results").style.display = "none"; -->

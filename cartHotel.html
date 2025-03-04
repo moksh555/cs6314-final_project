@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="mystyle.css" />
+    <link rel="stylesheet" href="cartHotel.css" />
+    <title>Bookings</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+      }
+      table {
+        border-collapse: collapse;
+        width: 100%;
+        margin-top: 20px;
+      }
+      th,
+      td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+      }
+      th {
+        background-color: #f4f4f4;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="general">
+      <p id="datetime"></p>
+      <p id="userGreeting">Welcome, Guest!</p>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="stays.html">Stays</a></li>
+        <li><a href="flights.html">Flights</a></li>
+        <!-- <li><a href="cars.html">Cars</a></li>
+        <li><a href="cruises.html">Cruises</a></li> -->
+        <li><a href="contact-us.html">Contact Us</a></li>
+        <li><a href="cart.html">My Flight Cart</a></li>
+        <li><a href="cartHotel.html">My Cart Hotel </a></li>
+        <li><a href="flighBookingHistory.html">Flight Booking </a></li>
+        <li><a href="hotelBookingHistory.html">Hotel Booking</a></li>
+        <li><a href="my-account.html">My Account</a></li>
+      </ul>
+    </nav>
+    <h1>My Hotel Cart</h1>
+    <div id="totalPriceConatiner"></div>
+    <div id="content"></div>
+    <button id="bookAllHotelsBtn">Book All Hotels</button>
+
+    <script>
+      // Function to load and display hotel cart items
+      function loadCartHotelItems() {
+        fetch("server.php", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ action: "fetchHotelCart" }),
+        })
+          .then((response) => response.json())
+          .then((bookings) => {
+            if (!bookings || bookings.length === 0) {
+              document.getElementById("content").innerHTML =
+                "<p>Nothing found, your cart is empty.</p>";
+              return;
+            }
+            let totalHotelPrice = 0;
+            let resultContainer = document.getElementById("content");
+
+            bookings.forEach((booking, index) => {
+              totalHotelPrice += parseFloat(booking.totalPrice);
+              resultContainer.innerHTML += `
+            <div>
+              <h4>Hotel ID: ${booking.hotel_id}</h4>
+              <p>Hotel Name: ${booking.hotel_name}</p>
+              <p>City: ${booking.city}</p>
+              <p>Check-in Date: ${booking.checkIn}</p>
+              <p>Check-out Date: ${booking.checkOut}</p>
+              <p>Adults: ${booking.adults}</p>
+              <p>Children: ${booking.children}</p>
+              <p>Infants: ${booking.infants}</p>
+              <p>Rooms: ${booking.rooms}</p>
+              <p>Price/night: $${booking.price}</p>
+              <p>Total Price: $${booking.totalPrice}</p>
+              <input type="hidden" id="hotelId_${index}" value="${booking.hotel_id}" /> <!-- Hidden hotelId -->
+            </div>
+            <div class="hotel-form">
+              <h4>Enter Guest Details</h4>
+              <div id="guest-forms-${index}-${booking.hotel_id}"></div>
+            </div>
+          `;
+              generateGuestForms(booking, index);
+            });
+
+            document.getElementById(
+              "totalPriceConatiner"
+            ).innerHTML = `Total Price $ ${totalHotelPrice}`;
+          })
+          .catch((error) => {
+            document.getElementById("content").innerHTML =
+              "<p>Error fetching cart items.</p>";
+            console.error("Error fetching cart items:", error);
+          });
+      }
+
+      function collectBookingDataAndBook() {
+        fetch("server.php", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ action: "fetchHotelCart" }),
+        })
+          .then((response) => response.json())
+          .then((bookings) => {
+            if (!bookings || bookings.length === 0) {
+              document.getElementById("content").innerHTML =
+                "<p>Nothing found, your cart is empty.</p>";
+              return;
+            }
+            let overallBookings = [];
+            bookings.forEach((booking) => {
+              const passenger = [];
+
+              for (let i = 0; i < booking.adults; i++) {
+                console.log(
+                  `first_name_${booking.hotel_id}_adult_${i}`,
+                  `last_name_${booking.hotel_id}_adult_${i}`,
+                  `dob_${booking.hotel_id}_adult_${i}`,
+                  `ssn_${booking.hotel_id}_adult_${i}`
+                );
+                const firstName = document.getElementById(
+                  `first_name_${booking.hotel_id}_adult_${i}`
+                ).value;
+                const lastName = document.getElementById(
+                  `last_name_${booking.hotel_id}_adult_${i}`
+                ).value;
+                const dob = document.getElementById(
+                  `dob_${booking.hotel_id}_adult_${i}`
+                ).value;
+                const ssn = document.getElementById(
+                  `ssn_${booking.hotel_id}_adult_${i}`
+                ).value;
+                console.log();
+                const pass = {
+                  type: "adult",
+                  firstName,
+                  lastName,
+                  dob,
+                  ssn,
+                };
+
+                passenger.push(pass);
+              }
+
+              for (let i = 0; i < booking.children; i++) {
+                const firstName = document.getElementById(
+                  `first_name_${booking.hotel_id}_child_${i}`
+                ).value;
+                const lastName = document.getElementById(
+                  `last_name_${booking.hotel_id}_child_${i}`
+                ).value;
+                const dob = document.getElementById(
+                  `dob_${booking.hotel_id}_child_${i}`
+                ).value;
+                const ssn = document.getElementById(
+                  `ssn_${booking.hotel_id}_child_${i}`
+                ).value;
+
+                const pass = {
+                  type: "children",
+                  firstName,
+                  lastName,
+                  dob,
+                  ssn,
+                };
+
+                passenger.push(pass);
+              }
+
+              for (let i = 0; i < booking.infants; i++) {
+                const firstName = document.getElementById(
+                  `first_name_${booking.hotel_id}_infant_${i}`
+                ).value;
+                const lastName = document.getElementById(
+                  `last_name_${booking.hotel_id}_infant_${i}`
+                ).value;
+                const dob = document.getElementById(
+                  `dob_${booking.hotel_id}_infant_${i}`
+                ).value;
+                const ssn = document.getElementById(
+                  `ssn_${booking.hotel_id}_infant_${i}`
+                ).value;
+
+                const pass = {
+                  type: "infants",
+                  firstName,
+                  lastName,
+                  dob,
+                  ssn,
+                };
+
+                passenger.push(pass);
+              }
+
+              const characters =
+                "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+              let bookingId = "";
+
+              for (let i = 0; i < 10; i++) {
+                const randomIndex = Math.floor(
+                  Math.random() * characters.length
+                );
+                bookingId += characters.charAt(randomIndex);
+              }
+
+              overallBookings.push({
+                bookingId,
+                hotel_id: booking.hotel_id,
+                passenger_details: passenger,
+                checkIn: booking.checkIn,
+                checkOut: booking.checkOut,
+                rooms: booking.rooms,
+                price: booking.price,
+                totalPrice: booking.totalPrice,
+              });
+            });
+
+            console.log(overallBookings);
+            fetch("server.php", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                action: "bookHotelCart",
+                bookings: overallBookings,
+              }),
+            })
+              .then((response) => response.json())
+              .then((data) => {
+                console.log("Server Response: ", data);
+                if (data.success) {
+                  // Success feedback to user
+                  console.log("Booking sucsseful!");
+                  alert("Hotel Booking sucsseful!");
+                } else {
+                  // Error handling
+                  consol.log("Error booking was unsucsseful!");
+                }
+              })
+              .catch((error) => {
+                console.error("Error during booking:", error);
+                alert("An error occurred while booking. Please try again.");
+              });
+          })
+          .catch((error) => {
+            document.getElementById("content").innerHTML =
+              "<p>Error fetching cart items.</p>";
+            console.error("Error fetching cart items:", error);
+          });
+      }
+
+      // Trigger the book all hotels function
+      document
+        .getElementById("bookAllHotelsBtn")
+        .addEventListener("click", collectBookingDataAndBook);
+
+      // Load bookings on page load
+      window.onload = loadCartHotelItems;
+
+      // Function to generate guest forms for each hotel booking
+      function generateGuestForms(booking, hotelIndex) {
+        const guestFormContainer = document.getElementById(
+          `guest-forms-${hotelIndex}-${booking.hotel_id}`
+        );
+
+        let guestCounter = 1;
+
+        // Generate forms for adults
+        for (let i = 0; i < booking.adults; i++) {
+          guestFormContainer.innerHTML += `
+        <h5>Adult ${i + 1}</h5>
+        <input type="text" id="first_name_${
+          booking.hotel_id
+        }_adult_${i}" placeholder="First Name" value="" required />
+        <input type="text" id="last_name_${
+          booking.hotel_id
+        }_adult_${i}" placeholder="Last Name" value="" required />
+        <input type="date" id="dob_${
+          booking.hotel_id
+        }_adult_${i}" placeholder="Date of Birth" value="" required />
+        <input type="text" id="ssn_${
+          booking.hotel_id
+        }_adult_${i}" placeholder="SSN" value="" required />
+      `;
+        }
+
+        // Generate forms for children
+        for (let i = 0; i < booking.children; i++) {
+          guestFormContainer.innerHTML += `
+        <h5>Child ${i + 1}</h5>
+        <input type="text" id="first_name_${
+          booking.hotel_id
+        }_child_${i}" placeholder="First Name" value="" required />
+        <input type="text" id="last_name_${
+          booking.hotel_id
+        }_child_${i}" placeholder="Last Name" value=""  required />
+        <input type="date" id="dob_${
+          booking.hotel_id
+        }_child_${i}" placeholder="Date of Birth" value="" required />
+        <input type="text" id="ssn_${
+          booking.hotel_id
+        }_child_${i}" placeholder="SSN"value="" required />
+      `;
+        }
+
+        // Generate forms for infants
+        for (let i = 0; i < booking.infants; i++) {
+          guestFormContainer.innerHTML += `
+        <h5>Infant ${i + 1}</h5>
+        <input type="text" id="first_name_${
+          booking.hotel_id
+        }_infant_${i}" placeholder="First Name" value="" required />
+        <input type="text" id="last_name_${
+          booking.hotel_id
+        }_infant_${i}" placeholder="Last Name" value="" required />
+        <input type="date" id="dob_${
+          booking.hotel_id
+        }_infant_${i}" placeholder="Date of Birth" value="" required />
+        <input type="text" id="ssn_${
+          booking.hotel_id
+        }_infant_${i}" placeholder="SSN" value="" required />
+      `;
+        }
+      }
+    </script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="js/userData.js"></script>
+  </body>
+</html>

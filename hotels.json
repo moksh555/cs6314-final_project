@@ -1,0 +1,122 @@
+[
+  {
+    "hotel_id": "H001",
+    "hotel_name": "Texas Grand Resort",
+    "hotel_city": "Austin",
+    "price": "200.00"
+  },
+  {
+    "hotel_id": "H002",
+    "hotel_name": "Dallas Luxury Suites",
+    "hotel_city": "Dallas",
+    "price": "180.00"
+  },
+  {
+    "hotel_id": "H003",
+    "hotel_name": "Houston Palace",
+    "hotel_city": "Houston",
+    "price": "220.00"
+  },
+  {
+    "hotel_id": "H004",
+    "hotel_name": "San Antonio Grand",
+    "hotel_city": "San Antonio",
+    "price": "210.00"
+  },
+  {
+    "hotel_id": "H005",
+    "hotel_name": "El Paso Retreat",
+    "hotel_city": "El Paso",
+    "price": "195.00"
+  },
+  {
+    "hotel_id": "S001",
+    "hotel_name": "San Francisco Bayview Hotel",
+    "hotel_city": "San Francisco",
+    "price": "250.00"
+  },
+  {
+    "hotel_id": "S002",
+    "hotel_name": "Los Angeles Luxury Inn",
+    "hotel_city": "Los Angeles",
+    "price": "240.00"
+  },
+  {
+    "hotel_id": "S003",
+    "hotel_name": "San Diego Beachfront Resort",
+    "hotel_city": "San Diego",
+    "price": "230.00"
+  },
+  {
+    "hotel_id": "S004",
+    "hotel_name": "Santa Monica Retreat",
+    "hotel_city": "Santa Monica",
+    "price": "215.00"
+  },
+  {
+    "hotel_id": "S005",
+    "hotel_name": "Orange County Grand Hotel",
+    "hotel_city": "Irvine",
+    "price": "200.00"
+  },
+  {
+    "hotel_id": "H006",
+    "hotel_name": "Austin Skyline Hotel",
+    "hotel_city": "Austin",
+    "price": "210.00"
+  },
+  {
+    "hotel_id": "H007",
+    "hotel_name": "Fort Worth Suites",
+    "hotel_city": "Fort Worth",
+    "price": "190.00"
+  },
+  {
+    "hotel_id": "H008",
+    "hotel_name": "Galveston Beach Resort",
+    "hotel_city": "Galveston",
+    "price": "225.00"
+  },
+  {
+    "hotel_id": "H009",
+    "hotel_name": "Lubbock Grand Hotel",
+    "hotel_city": "Lubbock",
+    "price": "180.00"
+  },
+  {
+    "hotel_id": "H010",
+    "hotel_name": "McKinney Hotel & Spa",
+    "hotel_city": "McKinney",
+    "price": "195.00"
+  },
+  {
+    "hotel_id": "S006",
+    "hotel_name": "Hollywood Hills Resort",
+    "hotel_city": "Los Angeles",
+    "price": "250.00"
+  },
+  {
+    "hotel_id": "S007",
+    "hotel_name": "Pasadena Grand Inn",
+    "hotel_city": "Pasadena",
+    "price": "240.00"
+  },
+  {
+    "hotel_id": "S008",
+    "hotel_name": "Laguna Beach Retreat",
+    "hotel_city": "Laguna Beach",
+    "price": "230.00"
+  },
+  {
+    "hotel_id": "S009",
+    "hotel_name": "Napa Valley Resort",
+    "hotel_city": "Napa",
+    "price": "275.00"
+  },
+  {
+    "hotel_id": "S010",
+    "hotel_name": "Sacramento Lakeside Hotel",
+    "hotel_city": "Sacramento",
+    "price": "200.00"
+  }
+]
